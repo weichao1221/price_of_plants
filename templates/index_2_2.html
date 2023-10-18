@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/styles.css">
+</head>
+<body>
+<h1 style="text-align: center">2023年保定市8月份苗木价格趋势图</h1>
+<div class="content">
+    <div class="content-left">
+        <div class="content-left-serch">
+            <input type="text" placeholder="请输入苗木名称" id="name"><button type="button">搜索</button>
+        </div>
+        <ul class="drawer">
+            <li class="drawer-item">常绿乔木
+                <ul class="sub-menu">
+                    {% for item in changlv_name_list %}
+                    <li class="sub-menu-item" id="changlv_name">{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li class="drawer-item">落叶乔木
+                <ul class="sub-menu">
+                    {% for item in luoye_name_list %}
+                        <li class="sub-menu-item" id="luoye_name">{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li class="drawer-item">灌木
+                <ul class="sub-menu">
+                    {% for item in guanmu_name_list %}
+                        <li class="sub-menu-item" id="guanmu_name">{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li class="drawer-item">地被类
+                <ul class="sub-menu">
+                    {% for item in dibeilei_name_list %}
+                        <li class="sub-menu-item" id="dibeilei_name">{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+    <div class="content-right">
+        <div class="content-right-title">
+            <h1>趋势线图</h1>
+        </div>
+        <div class="content-right-content" id="content-right-content">
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    var html_str = {{ html_str }};
+    document.getElementById('content-right-content').innerHTML(html_str)
+</script>
+
+

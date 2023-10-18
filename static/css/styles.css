@@ -1,0 +1,133 @@
+/* 基本样式 */
+.drawer {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    background-color: #1c232f;
+    float: left;
+}
+
+.drawer-item {
+    padding: 10px;
+    cursor: pointer;
+    color: white;
+    text-align: left; /* 文本左对齐 */
+    text-decoration: none;
+    line-height: 50px;
+}
+
+.sub-menu {
+    display: none;
+    padding-left: 2px;
+}
+
+.sub-menu-item {
+    padding: 3px;   /* 设置子标题的内边距 */
+    cursor: pointer;    /* 鼠标移动到上面时显示手型 */
+    color: white;    /* 字体颜色 */
+    text-align: left; /* 文本左对齐 */
+    text-decoration: none;  /* 文本无下划线 */
+    line-height: 20px;  /* 行高 */
+    font-size: 13px;    /* 字体大小 */
+}
+
+/* 鼠标悬停时打开抽屉，鼠标移开时关闭抽屉 */
+.drawer-item:hover .sub-menu {
+    display: block;
+}
+
+/* 子标题鼠标经过时的改变颜色 */
+.sub-menu-item:hover {
+    background-color: #12040c;
+}
+
+/* 右侧展示区样式 */
+.content-left {
+    width: 20%;
+    height: 800px;
+    background-color: #1c232f;
+    float: left;
+}
+
+.content-right {
+    width: 80%;
+    height: 800px;
+    background-color: #6495ED;
+    float: left;
+}
+
+/* 设置 <ul> 标签的左边距为 10% */
+ul.drawer {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    margin-left: 10%; /* 左边距设置为 10% */
+    background-color: #1c232f;
+    float: left;
+}
+
+/* 设置 <li> 标签的左边距为 10% */
+li.drawer-item {
+    cursor: pointer;
+    color: white;
+    text-align: left; /* 文本左对齐 */
+    text-decoration: none;
+    line-height: 50px;
+    margin-left: 10%; /* 左边距设置为 10% */
+}
+
+ul.sub-menu {
+    list-style: none;
+    height: auto;
+    max-height: 400px;
+    /* 隐藏滚动条 */
+    overflow: auto;
+}
+
+.content-left-serch {
+    width: 100%;
+    height: auto;
+    background-color: #1c232f;
+    float: left;
+    padding: 10px;
+    text-align: center;
+
+}
+
+.content-left-serch button {
+    width: 29%;
+    height: 32px;
+    background-color: #0C1119;
+    float: left;
+    border: none;
+    color: white;
+    font-size: 15px;
+}
+
+.content-left-serch input {
+    width: 69%;
+    height: 30px;
+    background-color: #0C1119;
+    float: left;
+    border: none;
+    color: white;
+    font-size: 10px;
+    text-align: center;
+}
+
+.content-right-title h1 {
+    text-align: center;
+    color: white;
+    font-size: 30px;
+    line-height: 80px;
+    border: black solid 0.5px;
+}
+
+.content-right-content p {
+    text-align: center;
+    color: white;
+    font-size: 20px;
+    /* 垂直居中 */
+    line-height: 650px;
+    border: black solid 0.5px;
+}
