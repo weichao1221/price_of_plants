@@ -46,36 +46,22 @@
 </div>
     <div class="content-right">
         <div class="content-right-content" id="content-right-content">
-            <iframe src="../main/{{ name }}.html" width="100%" height="500%" frameborder="0" scrolling="no"></iframe>
+            <h3>图表展示区，点击左侧苗木名称，在此处显示价格趋势图</h3>
         </div>
     </div>
 </body>
 </html>
 <script>
     const liElements = document.querySelectorAll(".sub-menu-item");
-      liElements.forEach(function (li) {
-        li.addEventListener('click', function () {
-          var textContent = li.textContent;
-          sendDataToServer(textContent);
-        });
+    const contentRight = document.getElementById("content-right-content");
+
+    liElements.forEach(function (li) {
+      li.addEventListener('click', function () {
+        var textContent = li.textContent;
+        contentRight.innerHTML = `<iframe src="../static/result/${textContent}.html" width="100%" height="500%" frameborder="0" scrolling="no"></iframe>`;
+        sendDataToServer(textContent);
       });
-
-      async function sendDataToServer(textContent) {
-        fetch("/get_chart_html", {
-          method: 'POST',
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ text: textContent })
-        })
-          .then(response => response.json())
-          .then((data) => {
-
-          })
-          .catch((error) => {
-            console.error('Error fetching data:', error)
-          });
-      }
+    });
 </script>
 
 

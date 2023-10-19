@@ -180,11 +180,12 @@ def draw(x, y, start_name):
     y_fit = exponential_function(x_fit, a_fit, b_fit)
 
     # 创建散点图
-    scatter = go.Scatter(x=x, y=y, mode='markers', name='Data')
+    scatter = go.Scatter(x=x, y=y, mode='markers', name='散点')
 
+    nihe = f'y = {a_fit:.2f} * e^({b_fit:.2f} * x), Var(a) = {variance_a:.2f}, Var(b) = {variance_b:.2f}'
     # 创建拟合曲线
     fit_curve = go.Scatter(x=x_fit, y=y_fit, mode='lines',
-                           name=f'Fit: y = {a_fit:.2f} * e^({b_fit:.2f} * x), Var(a) = {variance_a:.2f}, Var(b) = {variance_b:.2f}')
+                           name=f'拟合曲线')
 
     x_label = get_x_label(start_name)
     # 创建图布局

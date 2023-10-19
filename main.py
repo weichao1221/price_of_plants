@@ -14,15 +14,20 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 @app.get("/", response_class=HTMLResponse)
 async def root(request: Request):
     from utils.get_data import get_name_list
+    from utils.get_data import draw
+    from utils.get_data import get_data
     name_list = get_name_list()[0]
+    for name in name_list:
+        fig = draw(get_data(name)[0], get_data(name)[1], name)
+        fig = fig.write_html(f"static/result/{name}.html")
+        
     # 依次返回 常绿、落叶、灌木、地被类 四个列表
     changlv_name_list = get_name_list()[1]
     luoye_name_list = get_name_list()[2]
     guanmu_name_list = get_name_list()[3]
     dibeilei_name_list = get_name_list()[4]
-
     fig_html = "暂无数据"
-    return template.TemplateResponse("index_2.html", {"request": request, "name_list": name_list, "fig_html": fig_html,
+    return template.TemplateResponse("index_html.html", {"request": request, "name_list": name_list, "fig_html": fig_html,
                                                     "changlv_name_list": changlv_name_list, "luoye_name_list": luoye_name_list,
                                                     "guanmu_name_list": guanmu_name_list, "dibeilei_name_list": dibeilei_name_list})
 
@@ -73,3 +78,15 @@ async def get_chart(request: Request):
                                                       "guanmu_name_list": guanmu_name_list,
                                                       "dibeilei_name_list": dibeilei_name_list,
                                                       "html_str": html_str})
+
+@app.post("/get_chart_html", response_class=HTMLResponse)
+async def get_chart_html(request: Request):
+    data = await request.json()
+    text_content = data.get('text', '')  # 获取前端发送的'text'字段值
+    print(text_content) # 苗木名称
+    return template.TemplateResponse("index_2_2.html", {"request": request, "name": text_content})
+
+if __name__ == '__main__':
+    import uvicorn
+
+    uvicorn.run(app='main:app', host="127.0.0.1", port=8080, reload=True)
