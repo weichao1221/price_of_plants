@@ -2,74 +2,72 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Welcome</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            overflow: unset;
-        }
-        h1 {
-            text-align: center;
-        }
-        .box {
-            display: flex;
-            justify-content: space-between; /* 水平方向上的对齐方式 */
-            align-items: center; /* 垂直方向上的对齐方式 */
-            left: 10%;
-        }
-        .content {
-            width: 35%;
-            height: 100%;
-            max-height: 800px;
-            align-items: center;
-            text-align: center;
-            /*overflow: auto;*/
-            /*border: black solid 1px;*/
-        }
-        .search {
-            width: 100%;
-            height: 50px;
-
-            /*border: black solid 1px;*/
-        }
-        .names {
-            left: 10%;
-            width: 50%;
-            height: 100%;
-            max-height: 700px;
-            overflow: auto;
-            border: black solid 1px;
-        }
-        .fig {
-            width: 60%;
-            height: 800px;
-            max-height: 800px;
-            border: 1px solid black;
-            margin: 0 auto;
-        }
-    </style>
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/styles.css">
 </head>
 <body>
-    <h1>苗木价格走势图</h1>
-    <div class="box">
-        <div class="content">
-            <div class="search">
-            <input type="text" placeholder="name" id="name"><button type="button">搜索</button>
-            </div>
-            <div class="names">
-                <ul>
-                    {% for name in name_list %}
-                        <li>
-                            <form action="/get_chart" method="post">
-                                <input type="hidden" name="name" value="{{ name }}">
-                                <button type="submit">{{ name }}</button>
-                            </form>
-                        </li>
+<h1 style="text-align: center">2023年保定市8月份苗木价格趋势图</h1>
+<div class="content">
+    <div class="content-left">
+        <div class="content-left-serch">
+            <input type="text" placeholder="请输入苗木名称" id="name"><button type="button">搜索</button>
+        </div>
+        <div class="refresh">
+            <button type="button" onclick="window.location.href='/refresh'">刷新数据</button>
+        </div>
+        <ul class="drawer">
+            <li class="drawer-item">信息价
+                <ul class="sub-menu">
+                    <li class="sub-menu-item" id="changlv_name">2023年8月信息价</li>
+                    <li class="sub-menu-item" id="changlv_name">2023年9月信息价</li>
+                    <li class="sub-menu-item" id="changlv_name">2023年10月信息价</li>
+                    <li class="sub-menu-item" id="changlv_name">2023年11月信息价</li>
+                    <li class="sub-menu-item" id="changlv_name">2023年12月信息价</li>
+                    <li class="sub-menu-item" id="changlv_name">2023年10月信息价</li>
+                </ul>
+            </li>
+            <li class="drawer-item">历史数据
+                <ul class="sub-menu">
+                    {% for item in luoye_name_list %}
+                        <li class="sub-menu-item" id="luoye_name">{{ item }}</li>
                     {% endfor %}
                 </ul>
-            </div>
+            </li>
+            <li class="drawer-item">灌木
+                <ul class="sub-menu">
+                    {% for item in guanmu_name_list %}
+                        <li class="sub-menu-item" id="guanmu_name">{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li class="drawer-item">地被类
+                <ul class="sub-menu">
+                    {% for item in dibeilei_name_list %}
+                        <li class="sub-menu-item" id="dibeilei_name">{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+    <div class="content-right">
+        <div class="content-right-content" id="content-right-content">
+            <h3>图表展示区，点击左侧苗木名称，在此处显示价格趋势图</h3>
         </div>
     </div>
 </body>
 </html>
+<script>
+    const liElements = document.querySelectorAll(".sub-menu-item");
+    const contentRight = document.getElementById("content-right-content");
+
+    liElements.forEach(function (li) {
+      li.addEventListener('click', function () {
+        var textContent = li.textContent;
+        contentRight.innerHTML = `<iframe src="../static/result/${textContent}.html" width="100%" height="500%" frameborder="0" scrolling="no"></iframe>`;
+        sendDataToServer(textContent);
+      });
+    });
+</script>
+
+
