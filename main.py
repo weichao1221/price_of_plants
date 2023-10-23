@@ -14,77 +14,32 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 @app.get("/", response_class=HTMLResponse)
 async def root(request: Request):
     from utils.get_data import get_name_list
-    from utils.get_data import draw
-    from utils.get_data import get_data
-    name_list = get_name_list()[0]
-    for name in name_list:
-        fig = draw(get_data(name)[0], get_data(name)[1], name)
-        fig = fig.write_html(f"static/result/{name}.html")
-        
     # 依次返回 常绿、落叶、灌木、地被类 四个列表
     changlv_name_list = get_name_list()[1]
     luoye_name_list = get_name_list()[2]
     guanmu_name_list = get_name_list()[3]
     dibeilei_name_list = get_name_list()[4]
     fig_html = "暂无数据"
-    return template.TemplateResponse("index_html.html", {"request": request, "name_list": name_list, "fig_html": fig_html,
-                                                    "changlv_name_list": changlv_name_list, "luoye_name_list": luoye_name_list,
-                                                    "guanmu_name_list": guanmu_name_list, "dibeilei_name_list": dibeilei_name_list})
+    return template.TemplateResponse("index.html", {"request": request,    # request参数必须有
+                                                    "changlv_name_list": changlv_name_list,     # 常绿列表
+                                                    "luoye_name_list": luoye_name_list,        # 落叶列表
+                                                    "guanmu_name_list": guanmu_name_list,   # 灌木列表
+                                                    "dibeilei_name_list": dibeilei_name_list})  # 地被类列表
 
 
-@app.post("/get_chart", response_class=HTMLResponse)
-async def get_chart(request: Request, name: str = Form(...)):
-    from utils.get_data import draw
+# 后台手动刷新数据
+@app.get("/f", response_class=PlainTextResponse)  # 用于前端ajax请求
+async def refresh_data(request: Request):
     from utils.get_data import get_data
-    start_time = time.time()
-    fig = draw(get_data(name)[0], get_data(name)[1], name)
-    fig_html = fig.to_html()
-    fig_json = fig.to_dict()
-    end_time = time.time()
-    print(f"{name}已绘制完成，绘图时间：", round(end_time - start_time, 3), "s")
-    return fig_json
-
-
-@app.post("/get_chart_test", response_class=HTMLResponse)
-async def get_chart(request: Request):
-    data = await request.json()
-    text_content = data.get('text', '')  # 获取前端发送的'text'字段值
-    print(text_content)
-
-    # 导入draw和get_data函数
-    from utils.get_data import draw
-    from utils.get_data import get_data
-
-    start_time = time.time()
-    fig = draw(get_data(start_name=text_content)[0], get_data(start_name=text_content)[1], text_content)
-    fig_json = fig.to_plotly_json()
-    html_str = fig.to_html(include_plotlyjs='cdn')
-    end_time = time.time()
-
-    alert_text = f'{text_content}已完成绘制，绘图时间： {round(end_time - start_time, 3)}s'  # 使用模板字符串
-    print(alert_text)
-
     from utils.get_data import get_name_list
+    from utils.get_data import draw
     name_list = get_name_list()[0]
-    # 依次返回 常绿、落叶、灌木、地被类 四个列表
-    changlv_name_list = get_name_list()[1]
-    luoye_name_list = get_name_list()[2]
-    guanmu_name_list = get_name_list()[3]
-    dibeilei_name_list = get_name_list()[4]
+    for name in name_list:
+        fig = draw(get_data(name)[0], get_data(name)[1], name)
+        fig = fig.write_html(f"static/result/{name}.html")
+    return "数据已刷新"
 
-    return template.TemplateResponse("index_2_2.html", {"request": request,
-                                                      "changlv_name_list": changlv_name_list,
-                                                      "luoye_name_list": luoye_name_list,
-                                                      "guanmu_name_list": guanmu_name_list,
-                                                      "dibeilei_name_list": dibeilei_name_list,
-                                                      "html_str": html_str})
 
-@app.post("/get_chart_html", response_class=HTMLResponse)
-async def get_chart_html(request: Request):
-    data = await request.json()
-    text_content = data.get('text', '')  # 获取前端发送的'text'字段值
-    print(text_content) # 苗木名称
-    return template.TemplateResponse("index_2_2.html", {"request": request, "name": text_content})
 
 if __name__ == '__main__':
     import uvicorn

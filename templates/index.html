@@ -16,17 +16,14 @@
             <button type="button" onclick="window.location.href='/refresh'">刷新数据</button>
         </div>
         <ul class="drawer">
-            <li class="drawer-item">信息价
+            <li class="drawer-item">常绿乔木
                 <ul class="sub-menu">
-                    <li class="sub-menu-item" id="changlv_name">2023年8月信息价</li>
-                    <li class="sub-menu-item" id="changlv_name">2023年9月信息价</li>
-                    <li class="sub-menu-item" id="changlv_name">2023年10月信息价</li>
-                    <li class="sub-menu-item" id="changlv_name">2023年11月信息价</li>
-                    <li class="sub-menu-item" id="changlv_name">2023年12月信息价</li>
-                    <li class="sub-menu-item" id="changlv_name">2023年10月信息价</li>
+                    {% for item in changlv_name_list %}
+                    <li class="sub-menu-item" id="changlv_name">{{ item }}</li>
+                    {% endfor %}
                 </ul>
             </li>
-            <li class="drawer-item">历史数据
+            <li class="drawer-item">落叶乔木
                 <ul class="sub-menu">
                     {% for item in luoye_name_list %}
                         <li class="sub-menu-item" id="luoye_name">{{ item }}</li>
