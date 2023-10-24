@@ -95,7 +95,7 @@ ul.sub-menu {
 }
 
 .content-left-serch button {
-    width: 25%;
+    width: 29%;
     height: 30px;
     background-color: #0C1119;
     float: left;
@@ -103,9 +103,19 @@ ul.sub-menu {
     color: white;
     font-size: 15px;
 }
+.refresh button {
+    width: 100%;
+    height: 30px;
+    background-color: #0C1119;
+    float: left;
+    border: none;
+    color: white;
+    font-size: 15px;
+    bottom: 10px;
+}
 
 .content-left-serch input {
-    width: 45%;
+    width: 69%;
     height: 28px;
     background-color: #0C1119;
     float: left;
