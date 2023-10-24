@@ -11,9 +11,7 @@
     <div class="content-left">
         <div class="content-left-serch">
             <input type="text" placeholder="请输入苗木名称" id="name"><button type="button">搜索</button>
-        </div>
-        <div class="refresh">
-            <button type="button" onclick="window.location.href='/refresh'">刷新数据</button>
+            <button type="button" onclick="window.location.href='/f'">刷新数据</button>
         </div>
         <ul class="drawer">
             <li class="drawer-item">常绿乔木
@@ -61,7 +59,7 @@
     liElements.forEach(function (li) {
       li.addEventListener('click', function () {
         var textContent = li.textContent;
-        contentRight.innerHTML = `<iframe src="../static/result/${textContent}.html" width="100%" height="500%" frameborder="0" scrolling="no"></iframe>`;
+        contentRight.innerHTML = `<iframe src="../static/result/${textContent}.html"></iframe>`;
         sendDataToServer(textContent);
       });
     });

@@ -5,6 +5,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi import Form
 import time
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 
 app = FastAPI()
 template = Jinja2Templates(directory="templates")
@@ -28,7 +29,7 @@ async def root(request: Request):
 
 
 # 后台手动刷新数据
-@app.get("/f", response_class=PlainTextResponse)  # 用于前端ajax请求
+@app.get("/f", response_class=HTMLResponse)  # 用于前端ajax请求
 async def refresh_data(request: Request):
     from utils.get_data import get_data
     from utils.get_data import get_name_list
@@ -37,9 +38,17 @@ async def refresh_data(request: Request):
     for name in name_list:
         fig = draw(get_data(name)[0], get_data(name)[1], name)
         fig = fig.write_html(f"static/result/{name}.html")
-    return "数据已刷新"
+    html_text = ("<script>"
+                 "alert('数据刷新成功');"
+                    "window.location.href='/';"
+                 "</script>")
+    return HTMLResponse(content=html_text, status_code=200)
 
 
+@app.get("/static/css/styles.css")
+def get_css():
+    # 设置Cache-Control标头来允许缓存，例如，缓存1小时
+    return FileResponse("static/css/styles.css", headers={"Cache-Control": "public, max-age=3600"})
 
 if __name__ == '__main__':
     import uvicorn
