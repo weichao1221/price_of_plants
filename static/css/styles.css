@@ -41,17 +41,26 @@
     background-color: #12040c;
 }
 
-/* 右侧展示区样式 */
+
 .content-left {
     width: 20%;
-    height: 800px;
+    height: 90vh;
     background-color: #1c232f;
     float: left;
 }
 
+h1 {
+    text-align: center;
+    color: black;
+    font-size: 20px;
+    /* 垂直居中 */
+    line-height: 7vh;
+    /*border: black solid 0.5px;*/
+}
+
 .content-right {
     width: 80%;
-    height: 800px;
+    height: 90vh;
     background-color: #6495ED;
     float: left;
 }
@@ -125,12 +134,11 @@ ul.sub-menu {
     text-align: center;
 }
 
-.content-right-title h1 {
-    text-align: center;
-    color: white;
-    font-size: 30px;
-    line-height: 80px;
-    /*border: black solid 0.5px;*/
+.content-right-content {
+    width: 100%;
+    height: 100%;
+    background-color: #6495ED;
+    float: left;
 }
 
 .content-right-content h3 {
@@ -138,21 +146,12 @@ ul.sub-menu {
     color: white;
     font-size: 20px;
     /* 垂直居中 */
-    line-height: 650px;
+    line-height: 90vh;
     /*border: black solid 0.5px;*/
-}
-.content-right-content {
-    position: relative;
-    padding-bottom: 100%; /* 保持宽高比例（假设iframe内容的宽高比例是1:5） */
-    height: 0;
-    overflow: hidden;
 }
 
 .content-right-content iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
-    height: 600px;
-    border: 0;
+    height: 100%;
+    /*border: black solid 0.5px;*/
 }
