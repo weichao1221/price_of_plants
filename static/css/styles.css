@@ -99,14 +99,14 @@ li.drawer-item {
     color: white;
     text-align: left; /* 文本左对齐 */
     text-decoration: none;
-    line-height: 50px;
+    line-height: 30px;
     margin-left: 10%; /* 左边距设置为 10% */
 }
 
 ul.sub-menu {
     list-style: none;
     height: auto;
-    max-height: 400px;
+    max-height: 50vh;
     /* 隐藏滚动条 */
     overflow: auto;
 }
