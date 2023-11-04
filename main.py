@@ -35,6 +35,7 @@ async def refresh_data(request: Request):
     from utils.get_data import get_name_list
     from utils.get_data import draw
     name_list = get_name_list()[0]
+    dir = "static/result/"
     for name in name_list:
         fig = draw(get_data(name)[0], get_data(name)[1], name)
         fig = fig.write_html(f"static/result/{name}.html")

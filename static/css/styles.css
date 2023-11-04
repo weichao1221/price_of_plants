@@ -31,17 +31,35 @@
     font-size: 13px;    /* 字体大小 */
 }
 
-/* 鼠标悬停时打开抽屉，鼠标移开时关闭抽屉 */
-.drawer-item:hover .sub-menu {
-    display: block;
-}
+/*!* 鼠标悬停时打开抽屉，鼠标移开时关闭抽屉 *!*/
+/*.drawer-item:focus .sub-menu {*/
+/*    display: block;*/
+/*}*/
+/* 鼠标点击时打开抽屉，鼠标点击其他抽屉时，关闭此抽屉 */
+/*.drawer-item:focus + .sub-menu-item {*/
+/*    display: block;*/
+/*}*/
+
+/*!* 默认隐藏所有子菜单 *!*/
+/*.sub-menu-item {*/
+/*    display: none;*/
+/*}*/
+
 
 /* 子标题鼠标经过时的改变颜色 */
 .sub-menu-item:hover {
     background-color: #12040c;
 }
 
+/* 默认隐藏所有子菜单 */
+.sub-menu {
+display: none;
+}
 
+/* 当抽屉项目被点击并成为锚点的目标时，显示对应的子菜单 */
+.sub-menu:target {
+display: block;
+}
 .content-left {
     width: 20%;
     height: 90vh;
