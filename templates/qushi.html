@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>2023年8月份苗木信息价</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/styles.css">
+    <script>
+        var alert_text = "1. 本页面为测试性页面；" +
+            "\n2.本页面因需要绘制大量网页趋势图，需要操作较多，文档较大，加之网络加载问题，速度较慢，目前正在解决；" +
+            "\n3.页面中“搜索”功能暂未开放，等有时间再开发；" +
+            "\n4.其中的苗木内容及规格，均为河北省保定市2023年8月份苗木信息价中数据，后续会按月更新；";
+        alert(alert_text, "提示");
+    </script>
+</head>
+<body>
+<h1>2023年保定市8月份苗木价格趋势图</h1>
+<div class="content">
+    <div class="content-left">
+        <div class="content-left-serch">
+            <input type="text" placeholder="请输入苗木名称" id="name"><button type="button">搜索</button>
+        </div>
+        <ul class="drawer">
+            <li class="drawer-item">
+                <a href="#changlv">常绿乔木</a>
+                <ul class="sub-menu" id="changlv">
+                    {% for item in changlv_name_list %}
+                        <li class="sub-menu-item" id="changlv_name">{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li class="drawer-item">
+                <a href="#luoye">落叶乔木</a>
+                <ul class="sub-menu" id="luoye">
+                    {% for item in luoye_name_list %}
+                        <li class="sub-menu-item" id="luoye_name">{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li class="drawer-item">
+                <a href="#guanmu">灌木</a>
+                <ul class="sub-menu" id="guanmu">
+                    {% for item in guanmu_name_list %}
+                        <li class="sub-menu-item" id="guanmu_name">{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li class="drawer-item">
+                <a href="#dibeilei">地被类</a>
+                <ul class="sub-menu" id="dibeilei">
+                    {% for item in dibeilei_name_list %}
+                        <li class="sub-menu-item" id="dibeilei_name">{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        </ul>
+        <div class="refresh">
+            <button type="button" onclick="window.location.href='/f'">刷新数据</button>
+        </div>
+    </div>
+</div>
+    <div class="content-right">
+        <div class="content-right-content" id="content-right-content">
+            <h3>图表展示区，点击左侧苗木名称，在此处显示价格趋势图</h3>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    const liElements = document.querySelectorAll(".sub-menu-item");
+    const contentRight = document.getElementById("content-right-content");
+
+    liElements.forEach(function (li) {
+      li.addEventListener('click', function () {
+        var textContent = li.textContent;
+        contentRight.innerHTML = `<iframe src="../static/result/${textContent}.html"></iframe>`;
+        sendDataToServer(textContent);
+      });
+    });
+</script>
+
+

@@ -1,0 +1,1 @@
+{'generalTaxation': {'enterpriseManagementFees': 0.08, 'profit': 0.05, 'taxes': 0.09}, 'simplifiedTaxation': {'enterpriseManagementFees': 0.074, 'profit': 0.045, 'taxes': 0.03}}
