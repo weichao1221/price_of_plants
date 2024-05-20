@@ -6,10 +6,27 @@ from fastapi import Form
 import time
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
+import os
 
 app = FastAPI()
 template = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
+
+
+def read_data(filepath, filename):
+    path = os.path.join(filepath, f'{filename}.txt')
+    with open(path, 'r', encoding='utf-8') as f:
+        result = f.read()
+    result = eval(result)
+    return result
+
+
+def save_data(filepath, filename, data):
+    path = os.path.join(filepath, f'{filename}.txt')
+    with open(path, 'w', encoding='utf-8') as f:
+        f.write(str(data))
+        f.close()
+    return path
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -36,6 +53,10 @@ async def refresh_data(request: Request):
     from utils.get_data import draw
     name_list = get_name_list()[0]
     dir = "static/result/"
+    try:
+        os.makedirs(dir)
+    except FileExistsError:
+        pass
     for name in name_list:
         fig = draw(get_data(name)[0], get_data(name)[1], name)
         fig = fig.write_html(f"static/result/{name}.html")
