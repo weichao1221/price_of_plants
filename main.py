@@ -226,6 +226,25 @@ async def xinxijia_check(request: Request, sj: str = Form(default=datetime.datet
         }]
     return templates.TemplateResponse("信息价查询.html", {"request": request, "datelist": result, "haoshi": haoshi})
 
+@app.get("/swift_get_data")
+async def swift_get_data(request: Request):
+    result = []
+    price_data = read_data(filename='秀林苗木价格字典')
+    for value in price_data:
+        mc = str(value['mingcheng'])
+        zl = str(value['zhonglei'])
+        gd = str(value['guige_gaodu'])
+        xdj = str(value['guige_xiongdijing'])
+        gg = str(value['guige_guanfu'])
+        fzd = str(value['guige_fenzhidian'])
+        dw = str(value['danwei'])
+        jg = str(value['daochangjia_buhanshui'])
+        dataList = [mc, zl, gd, xdj, gg, fzd, dw, jg]
+        result.append(dataList)
+    return result
+
+
+
 
 if __name__ == '__main__':
     import uvicorn
