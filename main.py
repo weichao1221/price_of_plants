@@ -243,6 +243,15 @@ async def swift_get_data(request: Request):
         result.append(dataList)
     return result
 
+@app.get("/shortcut/oil")
+async def shortcut_oil(request: Request):
+    message = await request.json()
+    gonglishu = message['gls']
+    youjia = message['yj']
+    jiayouliang = message['jyl']
+
+    return gonglishu
+
 
 
 
