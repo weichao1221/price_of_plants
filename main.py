@@ -1,36 +1,18 @@
-import base64
-import json
 import os
-import shutil
-import time
-import openpyxl as xl
 from openpyxl.utils import column_index_from_string
-from fastapi import FastAPI, Request, WebSocket, HTTPException, Body
-from typing import List
+from fastapi import FastAPI, Request
 from fastapi import Form
-from fastapi.responses import FileResponse
 from fastapi.responses import HTMLResponse
-from fastapi.responses import RedirectResponse
-from fastapi.responses import Response
-from fastapi.security import HTTPBasic
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from starlette.middleware.sessions import SessionMiddleware
-from docx.shared import Pt
-from docx.oxml.ns import qn
-from docx import Document
 import datetime
 import re
-from pydantic import BaseModel
 from collections import OrderedDict
 import openpyxl
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
-app.add_middleware(SessionMiddleware, secret_key="your_secret_key")
-security = HTTPBasic()
-templates_week_report = Jinja2Templates(directory="templates/week_report")
 
 
 def read_data(filename):
