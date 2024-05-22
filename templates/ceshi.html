@@ -5,75 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>测试</title>
 
-    <style>
-        body {
-            border: black 1px solid;
-            overflow: hidden;
-        }
-        .box {
-            display: flex;
-            align-items: center;
-            direction: revert;
-            border: blue 1px solid;
-            overflow: hidden;
-        }
-        .left{
-            width: 20%;
-            max-width: 200px;
-            max-height: 80vh;
-            border: red 1px solid;
-            overflow: auto;
-        }
-        .right{
-            width: 80%;
-            max-height: 80vh;
-            border: red 1px solid;
-            overflow: auto;
-            align-items: center;
-            text-align: center;
-        }
-        .search {
-            border: blue 1px solid;
-            min-width: 400px;
-        }
-        table {
-            width: 100%;
-            border: red 1px solid;
-            border-collapse: collapse;
-        }
-        tbody {
-            overflow: auto;
-        }
-        ul {
-            list-style: none;
-            padding: 1px;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-            font-size: small;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            width: 150px;
-            word-wrap: break-word;
-        }
-
-        th {
-            background-color: #f2f2f2;
-            #border: black 1px solid;
-            text-align: center;
-        }
-
-        tr:hover {
-            background-color: #f5f5f5;
-        }
-    </style>
+    <link rel="stylesheet" href="../static/css/ceshi.css?v=1.0.4">
 </head>
 <body>
+    <div class="search">
+        <label for="text_1"><input type="text" id="text_1" required placeholder="日期"></label>
+        <label for="text_2"><input type="text" id="text_2" required placeholder="名称"></label>
+        <label for="text_3"><input type="text" id="text_3" required placeholder="规格"></label>
+        <button class="button" type="submit" onclick=button_click() id="check_btn">查询</button>
+        <button class="button" type="button" onclick=clear_content() id="clear_btn">清空</button>
+    </div>
     <div class="box">
-        <div class="left">
+        <div class="left" id="leftMenu">
             <ul>
                 <li id="cshi">测试</li>
                 <li>测试</li>
@@ -83,136 +26,134 @@
             </ul>
         </div>
         <div class="right">
-            <div class="search">
-                <input type="text">
-                <input type="text">
-                <input type="text">
-                <button>测试</button>
-            </div>
             <div class="table">
                 <table>
                     <thead>
                     <tr>
-                        <th>测试表头</th>
-                        <th>测试表头</th>
-                        <th>测试表头</th>
-                        <th>测试表头</th>
-                        <th>测试表头</th>
-                        <th>测试表头</th>
+                        <th>表头</th>
+                        <th>表头</th>
+                        <th>表头</th>
+                        <th>表头</th>
+                        <th>表头</th>
+                        <th>表头</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
                     </tr>
                     <tr>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
                     </tr>
                     <tr>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
                     </tr>
                     <tr>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
                     </tr>
                     <tr>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
                     </tr>
                     <tr>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
                     </tr>
                     <tr>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
                     </tr>
                     <tr>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
                     </tr>
                     <tr>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
                     </tr>
                     <tr>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
                     </tr>
                     <tr>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
                     </tr>
                     <tr>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
-                        <td>测试表格内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
+                        <td>内容内容内容内容内容内容内容</td>
+                        <td>内容</td>
+                        <td>内容</td>
                     </tr>
 
                     </tbody>
                     <tfoot>
                     <tr>
-                        <td>测试表格结尾</td>
-                        <td>测试表格结尾</td>
-                        <td>测试表格结尾</td>
-                        <td>测试表格结尾</td>
-                        <td>测试表格结尾</td>
-                        <td>测试表格结尾</td>
+                        <td>结尾</td>
+                        <td>结尾</td>
+                        <td>结尾</td>
+                        <td>结尾</td>
+                        <td>结尾</td>
+                        <td>结尾</td>
                     </tr>
                     </tfoot>
                 </table>
             </div>
         </div>
     </div>
+    <button class="menu-toggle" id="menuToggle">+++++++++</button>
 </body>
 </html>
+<script src="../static/js/ceshi.js?v=1.0.2"></script>
+
+

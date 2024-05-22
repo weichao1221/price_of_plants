@@ -9,6 +9,7 @@ import datetime
 import re
 from collections import OrderedDict
 import openpyxl
+import json
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
@@ -17,10 +18,9 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 def read_data(filename):
     filepath = os.path.join(os.path.dirname(__file__), 'static', 'res')
-    path = os.path.join(filepath, f'{filename}.txt')
+    path = os.path.join(filepath, f'{filename}.json')
     with open(path, 'r', encoding='utf-8') as f:
-        result = f.read()
-    result = eval(result)
+        result = json.load(f)
     return result
 
 
@@ -41,9 +41,6 @@ async def root(request: Request):
 @app.get("/{page}.html", response_class=HTMLResponse)
 async def page(request: Request, page: str):
     return templates.TemplateResponse(f'{page}.html', {"request": request})
-
-
-'''整改以后的各种价格库'''
 
 
 @app.get("/library", response_class=HTMLResponse)
@@ -138,43 +135,42 @@ async def search_data(request: Request, name: str = Form(...)):
         return templates.TemplateResponse("library.html", {"request": request,
                                                            "name_list": name_list, "result": result})
 
-
-@app.get("/jiagequshi", response_class=HTMLResponse)
-async def root(request: Request):
-    from utils.get_data import get_name_list
-    # 依次返回 常绿、落叶、灌木、地被类 四个列表
-    changlv_name_list = get_name_list()[1]
-    luoye_name_list = get_name_list()[2]
-    guanmu_name_list = get_name_list()[3]
-    dibeilei_name_list = get_name_list()[4]
-    fig_html = "暂无数据"
-    return templates.TemplateResponse("qushi.html", {"request": request,  # request参数必须有
-                                                     "changlv_name_list": changlv_name_list,  # 常绿列表
-                                                     "luoye_name_list": luoye_name_list,  # 落叶列表
-                                                     "guanmu_name_list": guanmu_name_list,  # 灌木列表
-                                                     "dibeilei_name_list": dibeilei_name_list})  # 地被类列表
-
-
-# 后台手动刷新数据
-@app.get("/f", response_class=HTMLResponse)  # 用于前端ajax请求
-async def refresh_data(request: Request):
-    from utils.get_data import get_data
-    from utils.get_data import get_name_list
-    from utils.get_data import draw
-    name_list = get_name_list()[0]
-    dir = "static/result/"
-    try:
-        os.makedirs(dir)
-    except FileExistsError:
-        pass
-    for name in name_list:
-        fig = draw(get_data(name)[0], get_data(name)[1], name)
-        fig = fig.write_html(f"static/result/{name}.html")
-    html_text = ("<script>"
-                 "alert('数据刷新成功');"
-                 "window.location.href='/';"
-                 "</script>")
-    return HTMLResponse(content=html_text, status_code=200)
+#
+# @app.get("/jiagequshi", response_class=HTMLResponse)
+# async def root(request: Request):
+#     from utils.get_data import get_name_list
+#     # 依次返回 常绿、落叶、灌木、地被类 四个列表
+#     changlv_name_list = get_name_list()[1]
+#     luoye_name_list = get_name_list()[2]
+#     guanmu_name_list = get_name_list()[3]
+#     dibeilei_name_list = get_name_list()[4]
+#     fig_html = "暂无数据"
+#     return templates.TemplateResponse("qushi.html", {"request": request,  # request参数必须有
+#                                                      "changlv_name_list": changlv_name_list,  # 常绿列表
+#                                                      "luoye_name_list": luoye_name_list,  # 落叶列表
+#                                                      "guanmu_name_list": guanmu_name_list,  # 灌木列表
+#                                                      "dibeilei_name_list": dibeilei_name_list})  # 地被类列表
+#
+# # 后台手动刷新数据
+# @app.get("/f", response_class=HTMLResponse)  # 用于前端ajax请求
+# async def refresh_data(request: Request):
+#     from utils.get_data import get_data
+#     from utils.get_data import get_name_list
+#     from utils.get_data import draw
+#     name_list = get_name_list()[0]
+#     dir = "static/result/"
+#     try:
+#         os.makedirs(dir)
+#     except FileExistsError:
+#         pass
+#     for name in name_list:
+#         fig = draw(get_data(name)[0], get_data(name)[1], name)
+#         fig = fig.write_html(f"static/result/{name}.html")
+#     html_text = ("<script>"
+#                  "alert('数据刷新成功');"
+#                  "window.location.href='/jiagequshi';"
+#                  "</script>")
+#     return HTMLResponse(content=html_text, status_code=200)
 
 
 @app.get('/xinxijia')
@@ -262,6 +258,10 @@ async def shortcut_zhangben(request: Request):
 
     return info
 
+
+@app.get("/ceshi_html", response_class=HTMLResponse)
+async def ceshi_html(request: Request):
+    return templates.TemplateResponse("ceshi.html", {"request": request})
 
 if __name__ == '__main__':
     import uvicorn
