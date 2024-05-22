@@ -157,7 +157,6 @@ async def search_data(request: Request, name: str = Form(...)):
                                                            "name_list": name_list, "result": result})
 
 
-
 @app.get("/jiagequshi", response_class=HTMLResponse)
 async def root(request: Request):
     from utils.get_data import get_name_list
@@ -202,7 +201,8 @@ def xinxijia(request: Request):
 
 
 @app.post("/xinxijia_check", response_class=HTMLResponse)
-async def xinxijia_check(request: Request, sj: str = Form(default=datetime.datetime.now().strftime('%Y-%m-%d')), mc: str = Form(default="无"), gg: str = Form(default='无')):
+async def xinxijia_check(request: Request, sj: str = Form(default=datetime.datetime.now().strftime('%Y-%m-%d')),
+                         mc: str = Form(default=""), gg: str = Form(default="")):
     print(sj)
     shijian_year = sj.split('-')[0]
     shijian_month = sj.split('-')[1].replace('0', '')
@@ -226,6 +226,7 @@ async def xinxijia_check(request: Request, sj: str = Form(default=datetime.datet
         }]
     return templates.TemplateResponse("信息价查询.html", {"request": request, "datelist": result, "haoshi": haoshi})
 
+
 @app.get("/swift_get_data")
 async def swift_get_data(request: Request):
     result = []
@@ -243,16 +244,41 @@ async def swift_get_data(request: Request):
         result.append(dataList)
     return result
 
+
 @app.post("/shortcut/oil")
 async def shortcut_oil(request: Request):
     message = await request.json()
     gonglishu = message['gls']
     youjia = message['yj']
     jiayouliang = message['jyl']
-
+    print(message)
     return gonglishu
 
 
+@app.post("/shortcut/zhangben")
+async def shortcut_zhangben(request: Request):
+    message = await request.json()
+    xinxi = message['xinxi']
+    print(xinxi)
+    xinxi = '【北京银行】您账户1160于5月21日20:31通过网银在线（京东支付）支付59.40元。活期余额603.13元。对方户名:京东商城业务。'
+
+    def exctract_info(sms):
+        account_pattern = r'账户(\d+)'
+        # date_time_pattern = r'\d{4}-\d{2}-\d{2}'
+        amount_pattern = r'支付([\d.]+)元'
+        account = re.search(account_pattern, sms).group(1)
+        # date_time = re.search(date_time_pattern, sms).group(1)
+        amount = re.search(amount_pattern, sms).group(1)
+        return {
+            'account': account,
+            # 'date_time': date_time,
+            'amount': amount
+        }
+
+    info = exctract_info(xinxi)
+    print(info)
+
+    return info
 
 
 if __name__ == '__main__':
