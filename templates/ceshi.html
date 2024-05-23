@@ -18,11 +18,9 @@
     <div class="box">
         <div class="left" id="leftMenu">
             <ul>
-                <li id="cshi">测试</li>
-                <li>测试</li>
-                <li>测试</li>
-                <li>测试</li>
-                <li>测试</li>
+                {% for item in keylist %}
+                    <li id="{{ item }}">{{ item }}</li>
+                {% endfor %}
             </ul>
         </div>
         <div class="right">
@@ -154,6 +152,6 @@
     <button class="menu-toggle" id="menuToggle">+++++++++</button>
 </body>
 </html>
-<script src="../static/js/ceshi.js?v=1.0.2"></script>
+<script src="../static/js/ceshi.js?v=1.0.3"></script>
 
 

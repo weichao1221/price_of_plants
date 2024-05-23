@@ -262,8 +262,13 @@ async def shortcut_zhangben(request: Request):
 @app.get("/ceshi_html", response_class=HTMLResponse)
 async def ceshi_html(request: Request):
     # 获取列表
-
-    return templates.TemplateResponse("ceshi.html", {"request": request})
+    filename = os.path.join(os.path.dirname(__file__), 'static', 'res', '2024年3月雄安信息价字典.json')
+    with open(filename, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    result = []
+    for key in data:
+        result.append(key)
+    return templates.TemplateResponse("ceshi.html", {"request": request, "keylist": result})
 
 if __name__ == '__main__':
     import uvicorn

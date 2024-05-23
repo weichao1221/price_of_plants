@@ -24,3 +24,16 @@ document.getElementById("menuToggle").addEventListener('click', function () {
     var leftMenu = document.getElementById("leftMenu");
     leftMenu.classList.toggle("open");
 });
+
+document.addEventListener("DOMContentLoaded", function() {
+    // 获取所有的li元素
+    const listItems = document.querySelectorAll("#leftMenu li");
+
+    // 为每个li元素添加点击事件监听器
+    listItems.forEach(item => {
+        item.addEventListener("click", function() {
+            // alert(`你点击了: ${item.id}`);
+            console.log(item.id);
+        });
+    });
+});

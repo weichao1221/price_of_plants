@@ -125,6 +125,10 @@ ul {
     padding-left: min(20px);
 }
 
+li {
+    cursor: pointer;
+}
+
 thead th, td {
     padding: 10px;
     font-size: small;
