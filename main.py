@@ -300,7 +300,10 @@ async def ceshi_html(request: Request):
 # 进度款
 @app.get("/creat_reports_zip_first", response_class=HTMLResponse)
 async def creat_reports_zip_first(request: Request):
-    username = request.session.get('username')
+    try:
+        username = request.session.get('username')
+    except:
+        username = 'Guest'
     print(username)
     return templates.TemplateResponse("Quick_progress_report_xd_first_time_3_4.html", {"request": request})
 
@@ -326,7 +329,10 @@ async def creat_reports_xd_result(request: Request,
                                   file_input_ss: UploadFile = File(default=None),
                                   file_input_sd: UploadFile = File(default=None)
                                   ):
-    username = request.session.get('username')
+    try:
+        username = request.session.get('username')
+    except:
+        username = 'Guest'
     global function_dir
     function_dir = os.path.join(os.path.dirname(__file__), 'user_folder', f'{username}')
     print(f"function_dir:{function_dir}")
@@ -624,7 +630,10 @@ async def creat_reports_xd_result(request: Request,
                                   fj3: UploadFile = File(default=None),
                                   fj4: UploadFile = File(default=None)):
     start_time = time.time()
-    username = request.session.get('username')
+    try:
+        username = request.session.get('username')
+    except:
+        username = 'Guest'
     print(year, month, Contract_Name, Reporting_Periods)
     project_dir = os.path.join(os.path.dirname(__file__), "user_folder", f'{username}',
                                "progress_reports_xd", Contract_Name, f'第{Reporting_Periods}期')
@@ -748,7 +757,8 @@ async def creat_reports_xd_result(request: Request,
                               Current_Approved_Total_Completed_Output_Value=Current_Application_Total_Completed_Output_Value,
                               Accounts_Payable_Advance_Payment=Accounts_Payable_Advance_Payment,
                               Advance_Payment_Offset=Advance_Payment_Offset,
-                              Total_Accounts_Payable=Total_Accounts_Payable
+                              Total_Accounts_Payable=Total_Accounts_Payable,
+                              project_info_path=project_info_xlsx_dir,
                               )
     doc.save(report_file_name)
     # 保存附件3、4
@@ -790,7 +800,10 @@ async def creat_reports_xd_result(request: Request,
 
 @app.get('/creat_reports_zip_not_first', response_class=HTMLResponse)
 async def creat_reports_zip_not_first(request: Request):
-    username = request.session.get('username')
+    try:
+        username = request.session.get('username')
+    except:
+        username = 'Guest'
     target_dir = os.path.join(os.path.dirname(__file__), "user_folder", f'{username}', "progress_reports_xd")
     contract_name = []
     for dir, folder, file in os.walk(target_dir):
@@ -1366,7 +1379,8 @@ async def creat_reports_xd_result(request: Request,
                               Current_Approved_Total_Completed_Output_Value=Current_Application_Total_Completed_Output_Value,
                               Accounts_Payable_Advance_Payment=Accounts_Payable_Advance_Payment,
                               Advance_Payment_Offset=Advance_Payment_Offset,
-                              Total_Accounts_Payable=Total_Accounts_Payable
+                              Total_Accounts_Payable=Total_Accounts_Payable,
+                              project_info_path=project_info_xlsx_dir
                               )
     doc.save(report_file_name)
     end_time = time.time()

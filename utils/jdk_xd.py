@@ -142,7 +142,7 @@ def insert_new_section(doc):
 def jdk_xd(doc, output_path, Contract_Name, Reporting_Periods, Consulting_Unit, Principal_Party, Design_Unit, Supervision_Unit, Construction_Unit, Project_Overview,
            Price_Form, Contract_Amount, Current_Application_Internal_Contract_Project, Current_Approved_Internal_Contract_Project, Current_Approved_Financial_Evaluation_Approval,
            Current_Approved_Deduction_of_Supply_of_Plants_by_Party_A, Total_Completed_Output_Value, Current_Approved_Total_Completed_Output_Value, Accounts_Payable_Advance_Payment,
-           Advance_Payment_Offset, Total_Accounts_Payable):
+           Advance_Payment_Offset, Total_Accounts_Payable, project_info_path):
     print(f'开始写{Contract_Name}的进度款审核报告···')
 
     # 读取附件2文档
@@ -152,7 +152,7 @@ def jdk_xd(doc, output_path, Contract_Name, Reporting_Periods, Consulting_Unit, 
     ws_fujian2 = wb_fujian2.active
 
     # 读取project_info.xlsx文档
-    project_info_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'function', 'progress_reports_xd', 'project_info.xlsx')
+    project_info_path = os.path.join(project_info_path, 'project_info.xlsx')
     wb_project_info = pl.load_workbook(project_info_path, data_only=True)
     ws_project_info = wb_project_info.active
 
@@ -262,43 +262,4 @@ def jdk_xd(doc, output_path, Contract_Name, Reporting_Periods, Consulting_Unit, 
     save_path = os.path.join(output_path, file_name)
     return save_path
 
-
-if __name__ == '__main__':
-    start_time = time.time()
-    save_path = r"/Users/willcha/Desktop/jdk"
-    doc = Document()
-    doc.styles["Normal"].font.size = Pt(14)  # 设置字体大小为"四号"
-    doc.styles["Normal"].font.name = "Times New Roman"  # 设置非中文字体为"新罗马"
-    doc.styles["Normal"].element.rPr.rFonts.set(qn("w:eastAsia"), u"仿宋GB_2312")  # 设置中文字体为"仿宋GB_2312"
-    Contract_Name = "测试合同名称"
-    Reporting_Periods = "2"
-    Consulting_Unit = "测试咨询单位"
-    Principal_Party = "测试建设单位"
-    Design_Unit = "测试设计单位"
-    Supervision_Unit = "测试监理单位"
-    Construction_Unit = "测试施工单位"
-    Project_Overview = "测试工程概况"
-    Price_Form = "测试合同单价形式"
-    Contract_Amount = 100000000
-    Current_Application_Internal_Contract_Project = 100000
-    Current_Approved_Internal_Contract_Project = 100000
-    Current_Approved_Financial_Evaluation_Approval = 100000
-    Current_Approved_Deduction_of_Supply_of_Plants_by_Party_A = 100000
-    Total_Completed_Output_Value = 100000
-    Current_Approved_Total_Completed_Output_Value = 100000
-    Accounts_Payable_Advance_Payment = 100000
-    Advance_Payment_Offset = 100000
-    Total_Accounts_Payable = 100000
-
-    file_name = jdk_xd(doc, save_path, Contract_Name, Reporting_Periods, Consulting_Unit, Principal_Party, Design_Unit,
-           Supervision_Unit, Construction_Unit, Project_Overview,
-           Price_Form, Contract_Amount, Current_Application_Internal_Contract_Project,
-           Current_Approved_Internal_Contract_Project, Current_Approved_Financial_Evaluation_Approval,
-           Current_Approved_Deduction_of_Supply_of_Plants_by_Party_A, Total_Completed_Output_Value,
-           Current_Approved_Total_Completed_Output_Value, Accounts_Payable_Advance_Payment,
-           Advance_Payment_Offset, Total_Accounts_Payable)
-    doc.save(f"{file_name}")
-
-    end_time = time.time()
-    print(f"文件保存在{save_path}, 用时{round(end_time - start_time, 2)}秒")
 
