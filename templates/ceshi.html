@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>测试</title>
-
-    <link rel="stylesheet" href="../static/css/ceshi.css?v=1.2">
+    <script src="../static/js/ceshi1.js"></script>
+    <link rel="stylesheet" href="../static/css/ceshi.css?v=1.5">
 </head>
 <body>
     <div class="search">
@@ -28,123 +28,37 @@
                 <table>
                     <thead>
                     <tr>
-                        <th>表头</th>
-                        <th>表头</th>
-                        <th>表头</th>
-                        <th>表头</th>
-                        <th>表头</th>
-                        <th>表头</th>
+                        <th>时间</th>
+{#                        <th>地区</th>#}
+                        <th>名称</th>
+                        <th>规格</th>
+                        <th>单位</th>
+                        <th>不含税金额</th>
+                        <th>含税金额</th>
                     </tr>
                     </thead>
                     <tbody>
+                    {% for item in valuelist %}
                     <tr>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
+                        <td>{{ item.sj }}</td>
+                        <td>{{ item.mc }}</td>
+                        <td>{{ item.gg }}</td>
+                        <td>{{ item.dw }}</td>
+                        <td>{{ item.p }}</td>
+                        <td>{{ item.p_tax }}</td>
                     </tr>
-                    <tr>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                    </tr>
-                    <tr>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                    </tr>
-                    <tr>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                    </tr>
-                    <tr>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                    </tr>
-                    <tr>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                    </tr>
-                    <tr>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                    </tr>
-                    <tr>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                    </tr>
-                    <tr>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                    </tr>
-                    <tr>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                    </tr>
-                    <tr>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                    </tr>
-                    <tr>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                        <td>内容内容内容内容内容内容内容</td>
-                        <td>内容</td>
-                        <td>内容</td>
-                    </tr>
-
+                    {% endfor %}
                     </tbody>
-                    <tfoot>
-                    <tr>
-                        <td>结尾</td>
-                        <td>结尾</td>
-                        <td>结尾</td>
-                        <td>结尾</td>
-                        <td>结尾</td>
-                        <td>结尾</td>
-                    </tr>
-                    </tfoot>
+{#                    <tfoot>#}
+{#                    <tr>#}
+{#                        <td>结尾</td>#}
+{#                        <td>结尾</td>#}
+{#                        <td>结尾</td>#}
+{#                        <td>结尾</td>#}
+{#                        <td>结尾</td>#}
+{#                        <td>结尾</td>#}
+{#                    </tr>#}
+{#                    </tfoot>#}
                 </table>
             </div>
         </div>
@@ -152,6 +66,6 @@
     <button class="menu-toggle" id="menuToggle">+++++++++</button>
 </body>
 </html>
-<script src="../static/js/ceshi.js?v=1.0.3"></script>
+<script src="../static/js/ceshi.js?v=1.2"></script>
 
 
