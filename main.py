@@ -261,6 +261,8 @@ async def shortcut_zhangben(request: Request):
 
 @app.get("/ceshi_html", response_class=HTMLResponse)
 async def ceshi_html(request: Request):
+    # 获取列表
+
     return templates.TemplateResponse("ceshi.html", {"request": request})
 
 if __name__ == '__main__':
