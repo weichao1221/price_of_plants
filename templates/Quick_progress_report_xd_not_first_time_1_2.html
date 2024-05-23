@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="../static/img/favicon.ico">
+    <title>进度款生成程序（新点软件）</title>
+<!--    <link rel="stylesheet" href="../static/css/new_css_0904.css?v=0.0.1">-->
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            font-family: "Arial", "Microsoft YaHei", "黑体", "宋体", sans-serif;
+        }
+        .title {
+            text-align: center;
+        }
+        #sheet {
+            position: relative; /* 相对定位 */
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex-direction: column;
+            /*max-height: 80vh;*/
+            min-width: 600px;
+            min-height: 60vh;
+            /*border: black solid 1px;*/
+        }
+        #sheet table {
+            font-size: 10px;
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+        }
+        #sheet table tr th {
+            border: 1px solid black;
+            padding: 5px;
+            text-align: center;
+        }
+        #sheet table tr td {
+            border: 1px solid black;
+            padding: 5px;
+            text-align: center;
+        }
+        #sheet input {
+            font-size: 10px;
+        }
+        input[type="text"] {
+            color: gray;
+            width: 100%;
+            box_sizing: border-box; /* 设置元素的盒模型为border-box，此时元素的width和height属性即包含了padding和border */
+            margin: 0;
+            padding: 4px;
+            border: none;
+            background: none;
+            outline: none;
+            text-align: center;
+        }
+        input[type="number"] {
+            color: black;
+            width: 50px;
+            box_sizing: border-box;
+            margin: 0;
+            padding: 4px;
+            border: none;
+            background: none;
+            outline: none;
+            text-align: center;
+        }
+        textarea {
+            background: none;
+            resize: vertical;
+            text-align: left;
+            font-size: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">
+        <h1>新点软件对接进度款表格及报告（非第一次）</h1>
+        <h5>2：进一步补充检查信息</h5>
+    </div>
+        <form action="/creat_reports_xd_result_1_2_old" method="post" enctype="multipart/form-data">
+            <div class="box" id="sheet">
+                <table>
+                    <tr>
+                        <th colspan="2"><label>合同名称</label></th>
+                        <th>
+                            <label>
+                                <input type="text" name="Contract_Name" id="Contract_Name" value="{{Contract_Name}}">
+                            </label>
+                        </th>
+                        <th>进度款支付比例</th>
+                        <th>
+                            <label>
+                                <input type="number" step="any" name="Progress_Payment_Ratio" id="Progress_Payment_Ratio" value="{{ Progress_Payment_Ratio }}" oninput="ss_sum(); sd_sum()">%
+                            </label>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">费用名称</th>
+                        <th colspan="1">截止上期末累计完成额(元）</th>
+                        <th colspan="1">本期送审(元）</th>
+                        <th colspan="1">本期审定(元）</th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">合同内项目</th>
+                        <th colspan="1">
+                            <label>
+                                <input type="number" step="0.01" style="width: 100%" name="Completed_Contract_Internal_Projects_Until_Last_Period" id="Completed_Contract_Internal_Projects_Until_Last_Period" value="{{ Completed_Contract_Internal_Projects_Until_Last_Period }}" oninput="sq_sum()" >
+                            </label>
+                        </th>
+                        <th colspan="1">
+                            <label>
+                                <input type="number" step="any" style="width: 100%" name="Current_Application_Internal_Contract_Project" id="Current_Application_Internal_Contract_Project" value="{{ Current_Application_Internal_Contract_Project }}" oninput="ss_sum()">
+                            </label>
+                        </th>
+                        <th colspan="1">
+                            <label>
+                                <input type="number" step="any" style="width: 100%" name="Current_Approved_Internal_Contract_Project" id="Current_Approved_Internal_Contract_Project" value="{{ Current_Approved_Internal_Contract_Project }}" oninput="sd_sum()">
+                            </label>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">预付安全文明施工费</th>
+                        <th colspan="1">
+                            <label>
+                                <input type="number" step="any" style="width: 100%" name="Completed_Prepaid_Safety_Civilized_Construction_Fee_Until_Last_Period" id="Completed_Prepaid_Safety_Civilized_Construction_Fee_Until_Last_Period" value="{{ Completed_Prepaid_Safety_Civilized_Construction_Fee_Until_Last_Period }}" oninput="sq_sum()">
+                            </label>
+                        </th>
+                        <th colspan="1">
+                            <label>
+                                <input type="number" step="any" style="width: 100%" name="Current_Application_Prepayment_Safety_Civilized_Construction_Fee" id="Current_Application_Prepayment_Safety_Civilized_Construction_Fee" value="{{Current_Application_Prepayment_Safety_Civilized_Construction_Fee}}" oninput="ss_sum()">
+                            </label>
+                        </th>
+                        <th colspan="1">
+                            <label>
+                                <input type="number" step="any" style="width: 100%" name="Current_Approved_Prepayment_Safety_Civilized_Construction_Fee" id="Current_Approved_Prepayment_Safety_Civilized_Construction_Fee" value="{{Current_Approved_Prepayment_Safety_Civilized_Construction_Fee}}" oninput="sd_sum()">
+                            </label>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">变更项目</th>
+                        <th colspan="1">
+                            <label>
+                                <input type="number" step="any" style="width: 100%" name="Accumulated_Completed_Amount_Until_Last_Period_Change_Projects" id="Accumulated_Completed_Amount_Until_Last_Period_Change_Projects" value="{{Accumulated_Completed_Amount_Until_Last_Period_Change_Projects}}" oninput="sq_sum()">
+                            </label>
+                        </th>
+                        <th colspan="1">
+                            <label>
+                                <input type="number" step="any" style="width: 100%" name="Current_Application_Change_Project" id="Current_Application_Change_Project" value="{{Current_Application_Change_Project}}" oninput="ss_sum()">
+                            </label>
+                        </th>
+                        <th colspan="1">
+                            <label>
+                                <input type="number" step="any" style="width: 100%" name="Current_Approved_Change_Project" id="Current_Approved_Change_Project" value="{{Current_Approved_Change_Project}}" oninput="sd_sum()">
+                            </label>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">计日工项目</th>
+                        <th colspan="1">
+                            <label>
+                                <input type="number" step="any" style="width: 100%" name="Accumulated_Completed_Amount_Until_Last_Period_Time_and_Materials_Project" id="Accumulated_Completed_Amount_Until_Last_Period_Time_and_Materials_Project" value="{{Accumulated_Completed_Amount_Until_Last_Period_Time_and_Materials_Project}}" oninput="sq_sum()">
+                            </label>
+                        </th>
+                        <th colspan="1">
+                            <label>
+                            <input type="number" step="any" style="width: 100%" name="Current_Application_Time_and_Materials_Project" id="Current_Application_Time_and_Materials_Project" value="{{Current_Application_Time_and_Materials_Project}}" oninput="ss_sum()">
+                        </label></th>
+                        <th colspan="1">
+                            <label>
+                            <input type="number" step="any" style="width: 100%" name="Current_Approved_Time_and_Materials_Project" id="Current_Approved_Time_and_Materials_Project" value="{{Current_Approved_Time_and_Materials_Project}}" oninput="sd_sum()">
+                        </label></th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">索赔项目</th>
+                        <th colspan="1">
+                            <label>
+                            <input type="number" step="any" style="width: 100%" name="Accumulated_Completed_Amount_Until_Last_Period_Claim_Project" id="Accumulated_Completed_Amount_Until_Last_Period_Claim_Project" value="{{Accumulated_Completed_Amount_Until_Last_Period_Claim_Project}}" oninput="sq_sum()">
+                        </label></th>
+                        <th colspan="1">
+                            <label>
+                            <input type="number" step="any" style="width: 100%" name="Current_Application_Claim_Project" id="Current_Application_Claim_Project" value="{{Current_Application_Claim_Project}}" oninput="ss_sum()">
+                        </label></th>
+                        <th colspan="1">
+                            <label>
+                            <input type="number" step="any" style="width: 100%" name="Current_Approved_Claim_Project" id="Current_Approved_Claim_Project" value="{{Current_Approved_Claim_Project}}" oninput="sd_sum()">
+                        </label></th>
+
+                    </tr>
+                    <tr>
+                        <th colspan="2">价格调整</th>
+                        <th colspan="1">
+                            <label>
+                            <input type="number" step="any" style="width: 100%" name="Accumulated_Completed_Amount_Until_Last_Period_Price_Adjustment" id="Accumulated_Completed_Amount_Until_Last_Period_Price_Adjustment" value="{{Accumulated_Completed_Amount_Until_Last_Period_Price_Adjustment}}" oninput="sq_sum()">
+                        </label></th>
+                        <th colspan="1">
+                            <label>
+                            <input type="number" step="any" style="width: 100%" name="Current_Application_Price_Adjustment" id="Current_Application_Price_Adjustment" value="{{Current_Application_Price_Adjustment}}" oninput="ss_sum()">
+                        </label></th>
+                        <th colspan="1">
+                            <label>
+                            <input type="number" step="any" style="width: 100%" name="Current_Approved_Price_Adjustment" id="Current_Approved_Price_Adjustment" value="{{Current_Approved_Price_Adjustment}}" oninput="sd_sum()">
+                        </label></th>
+
+                    </tr>
+                    <tr>
+                        <th colspan="2">其他</th>
+                        <th colspan="1">
+                            <label>
+                        <input type="number" step="any" style="width: 100%" name="Accumulated_Completed_Amount_Until_Last_Period_Other" id="Accumulated_Completed_Amount_Until_Last_Period_Other" value="{{Accumulated_Completed_Amount_Until_Last_Period_Other}}" oninput="sq_sum()">
+                        </label></th>
+                        <th colspan="1">
+                            <label>
+                        <input type="number" step="any" style="width: 100%" name="Current_Application_Other" id="Current_Application_Other" value="{{Current_Application_Other}}" oninput="ss_sum()">
+                        </label></th>
+                        <th colspan="1">
+                            <label>
+                        <input type="number" step="any" style="width: 100%" name="Current_Approved_Other" id="Current_Approved_Other" value="{{Current_Approved_Other}}" oninput="sd_sum()">
+                        </label></th>
+
+                    </tr>
+                    <tr>
+                        <th colspan="2">税率调整应付金额</th>
+                        <th colspan="1"><label>
+                            <input type="number" step="any" style="width: 100%" name="Accumulated_Completed_Amount_Until_Last_Period_Tax_Adjustment_Payable_Amount" id="Accumulated_Completed_Amount_Until_Last_Period_Tax_Adjustment_Payable_Amount" value="{{Accumulated_Completed_Amount_Until_Last_Period_Tax_Adjustment_Payable_Amount}}" oninput="sq_sum()">
+                        </label></th>
+                        <th colspan="1"><label>
+                            <input type="number" step="any" style="width: 100%" name="Current_Application_Tax_Adjustment_Payable_Amount" id="Current_Application_Tax_Adjustment_Payable_Amount" value="{{Current_Application_Tax_Adjustment_Payable_Amount}}" oninput="ss_sum()">
+                        </label></th>
+                        <th colspan="1"><label>
+                            <input type="number" step="any" style="width: 100%" name="Current_Approved_Tax_Adjustment_Payable_Amount" id="Current_Approved_Tax_Adjustment_Payable_Amount" value="{{Current_Approved_Tax_Adjustment_Payable_Amount}}" oninput="sd_sum()">
+                        </label></th>
+
+                    </tr>
+                    <tr>
+                        <th colspan="2">财评审减</th>
+                        <th colspan="1"><label>
+                            <input type="number" step="any" style="width: 100%" name="Accumulated_Completed_Amount_Until_Last_Period_Financial_Evaluation_Reduction" id="Accumulated_Completed_Amount_Until_Last_Period_Financial_Evaluation_Reduction" value="{{Accumulated_Completed_Amount_Until_Last_Period_Financial_Evaluation_Reduction}}" oninput="sq_sum()">
+                        </label></th>
+                        <th colspan="1"><label>
+                            <input type="number" step="any" style="width: 100%" name="Current_Application_Financial_Evaluation_Reduction" id="Current_Application_Financial_Evaluation_Reduction" value="{{Current_Application_Financial_Evaluation_Reduction}}" oninput="ss_sum()">
+                        </label></th>
+                        <th colspan="1"><label>
+                            <input type="number" step="any" style="width: 100%" name="Current_Approved_Financial_Evaluation_Approval" id="Current_Approved_Financial_Evaluation_Approval" value="{{Current_Approved_Financial_Evaluation_Approval}}" oninput="sd_sum()">
+                        </label></th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">完成产值合计</th>
+                        <th colspan="1"><label>
+                            <input type="number" step="any" style="width: 100%" name="Total_Completed_Output_Value" id="Total_Completed_Output_Value" value="{{Total_Completed_Output_Value}}" oninput="sq_sum()">
+                        </label></th>
+                        <th colspan="1"><label>
+                            <input type="number" step="any" style="width: 100%" name="Current_Application_Total_Completed_Output_Value" id="Current_Application_Total_Completed_Output_Value" value="{{Current_Application_Total_Completed_Output_Value}}" oninput="ss_sum()">
+                        </label></th>
+                        <th colspan="1"><label>
+                            <input type="number" step="any" style="width: 100%" name="Current_Approved_Total_Completed_Output_Value" id="Current_Approved_Total_Completed_Output_Value" value="{{Current_Approved_Total_Completed_Output_Value}}"  oninput="sd_sum()">
+                        </label></th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">扣减甲供材料费</th>
+                        <th colspan="1"><label>
+                            <input type="number" step="any" style="width: 100%" name="Deduction_of_Supply_of_Plants_by_Party_A" id="Deduction_of_Supply_of_Plants_by_Party_A" value="{{Deduction_of_Supply_of_Plants_by_Party_A}}" oninput="sq_sum()">
+                        </label></th>
+                        <th colspan="1"><label>
+                            <input type="number" step="any" style="width: 100%" name="Current_Application_Deduction_of_Supply_of_Plants_by_Party_A" id="Current_Application_Deduction_of_Supply_of_Plants_by_Party_A"  oninput="ss_sum()">
+                        </label></th>
+                        <th colspan="1"><label>
+                            <input type="number" step="any" style="width: 100%" name="Current_Approved_Deduction_of_Supply_of_Plants_by_Party_A" id="Current_Approved_Deduction_of_Supply_of_Plants_by_Party_A"  oninput="sd_sum()">
+                        </label></th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">扣除甲供材料费后完成产值合计</th>
+                        <th colspan="1">
+                            <label>
+                            <input type="number" step="any" style="width: 100%" name="Total_Completed_Output_Value_After_Deducting_Supply_of_Plants_by_Party_A" id="Total_Completed_Output_Value_After_Deducting_Supply_of_Plants_by_Party_A" value="{{Total_Completed_Output_Value_After_Deducting_Supply_of_Plants_by_Party_A}}" oninput="sq_sum()">
+                            </label>
+                        </th>
+                        <th colspan="1">
+                            <label>
+                            <input type="number" step="any" style="width: 100%" name="Current_Application_Total_Completed_Output_Value_After_Deducting_Supply_of_Plants_by_Party_A" id="Current_Application_Total_Completed_Output_Value_After_Deducting_Supply_of_Plants_by_Party_A" oninput="ss_sum()">
+                            </label>
+                        </th>
+                        <th colspan="1">
+                            <label>
+                            <input type="number" step="any" style="width: 100%" name="Current_Approved_Total_Completed_Output_Value_After_Deducting_Supply_of_Plants_by_Party_A" id="Current_Approved_Total_Completed_Output_Value_After_Deducting_Supply_of_Plants_by_Party_A" oninput="sd_sum()">
+                            </label>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th rowspan="2">预付款</th>
+                        <th>应付预付款</th>
+                        <th colspan="1">
+                            <label>
+                            <input type="number" step="any" style="width: 100%" name="Accounts_Payable_Advance_Payment" id="Accounts_Payable_Advance_Payment" value="{{Accounts_Payable_Advance_Payment}}" oninput="sq_sum()">
+                            </label>
+                        </th>
+                        <th colspan="1">
+                            <label>
+                            <input type="number" step="any" style="width: 100%" name="Current_Application_Accounts_Payable_Advance_Payment" id="Current_Application_Accounts_Payable_Advance_Payment" oninput="ss_sum()">
+                            </label>
+                        </th>
+                        <th colspan="1">
+                            <label>
+                            <input type="number" step="any" style="width: 100%" name="Current_Approved_Accounts_Payable_Advance_Payment" id="Current_Approved_Accounts_Payable_Advance_Payment" oninput="sd_sum()">
+                            </label>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>预付款抵扣</th>
+                        <th colspan="1"><label>
+                            <input type="number" step="any" style="width: 100%" name="Advance_Payment_Offset" id="Advance_Payment_Offset" value="{{Advance_Payment_Offset}}" oninput="sq_sum()">
+                        </label></th>
+                        <th colspan="1">
+                            <label>
+                            <input type="number" step="any" style="width: 100%" name="Current_Application_Advance_Payment_Offset" id="Current_Application_Advance_Payment_Offset" oninput="ss_sum()">
+                            </label>
+                        </th>
+                        <th colspan="1">
+                            <label>
+                            <input type="number" step="any" style="width: 100%" name="Current_Approved_Advance_Payment_Offset" id="Current_Approved_Advance_Payment_Offset" value="{{Current_Approved_Advance_Payment_Offset}}" oninput="sd_sum()">
+                            </label>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th rowspan="2">支付保留金</th>
+                        <th>暂扣支付保留金</th>
+                        <th colspan="1">
+                            <label>
+                                <input type="number" step="any" style="width: 100%" name="Temporary_Withholding_Payment_Retention_Money" id="Temporary_Withholding_Payment_Retention_Money" value="{{Temporary_Withholding_Payment_Retention_Money}}" oninput="sq_sum()">
+                            </label>
+                        </th>
+                        <th colspan="1">
+                            <label>
+                                <input type="number" step="any" style="width: 100%" name="Current_Application_Temporary_Withholding_Payment_Retention_Money" id="Current_Application_Temporary_Withholding_Payment_Retention_Money" oninput="ss_sum()">
+                            </label>
+                        </th>
+                        <th colspan="1">
+                            <label>
+                                <input type="number" step="any" style="width: 100%" name="Current_Approved_Temporary_Withholding_Payment_Retention_Money" id="Current_Approved_Temporary_Withholding_Payment_Retention_Money" oninput="sd_sum()">
+                            </label>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>返还支付保留金</th>
+                        <th colspan="1">
+                            <label>
+                                <input type="number" step="any" style="width: 100%" name="Refund_of_Payment_Retention_Money" id="Refund_of_Payment_Retention_Money" value="{{Refund_of_Payment_Retention_Money}}" oninput="sq_sum()">
+                            </label>
+                        </th>
+                        <th colspan="1">
+                            <label>
+                                <input type="number" step="any" style="width: 100%" name="Current_Application_Refund_of_Payment_Retention_Money" id="Current_Application_Refund_of_Payment_Retention_Money" oninput="ss_sum()">
+                            </label>
+                        </th>
+                        <th colspan="1">
+                            <label>
+                                <input type="number" step="any" style="width: 100%" name="Current_Approved_Refund_of_Payment_Retention_Money" id="Current_Approved_Refund_of_Payment_Retention_Money" oninput="sd_sum()">
+                            </label>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">应得款合计</th>
+                        <th colspan="1">
+                            <label>
+                                <input type="number" step="any" style="width: 100%" name="Total_Amount_Receivable" id="Total_Amount_Receivable" value="{{Total_Amount_Receivable}}" oninput="sq_sum()">
+                            </label>
+                        </th>
+                        <th colspan="1">
+                            <label>
+                                <input type="number" step="any" style="width: 100%" name="Current_Application_Total_Amount_Receivable" id="Current_Application_Total_Amount_Receivable" oninput="ss_sum()">
+                            </label>
+                        </th>
+                        <th colspan="1">
+                            <label>
+                                <input type="number" step="any" style="width: 100%" name="Current_Approved_Total_Amount_Receivable" id="Current_Approved_Total_Amount_Receivable" oninput="sd_sum()">
+                            </label>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th rowspan="3">应扣款</th>
+                        <th>违约金</th>
+                        <th colspan="1">
+                            <label>
+                                <input type="number" step="any" style="width: 100%" name="Deduction_Penalty" id="Deduction_Penalty" value="{{Deduction_Penalty}}" oninput="sq_sum()">
+                            </label>
+                        </th>
+                        <th colspan="1">
+                            <label>
+                                <input type="number" step="any" style="width: 100%" name="Current_Application_Deduction_Penalty" id="Current_Application_Deduction_Penalty" oninput="ss_sum()">
+                            </label>
+                        </th>
+                        <th colspan="1">
+                            <label>
+                                <input type="number" step="any" style="width: 100%" name="Current_Approved_Deduction_Penalty" id="Current_Approved_Deduction_Penalty" oninput="sd_sum()">
+                            </label>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>罚款</th>
+                        <th colspan="1">
+                            <label>
+                                <input type="number" step="any" style="width: 100%" name="Deduction_Fine" id="Deduction_Fine" value="{{Deduction_Fine}}" oninput="sq_sum()">
+                            </label>
+                        </th>
+                        <th colspan="1">
+                            <label>
+                                <input type="number" step="any" style="width: 100%" name="Current_Application_Deduction_Fine" id="Current_Application_Deduction_Fine" oninput="ss_sum()">
+                            </label>
+                        </th>
+                        <th colspan="1">
+                            <label>
+                                <input type="number" step="any" style="width: 100%" name="Current_Approved_Deduction_Fine" id="Current_Approved_Deduction_Fine" oninput="sd_sum()">
+                            </label>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>其他</th>
+                        <th colspan="1">
+                            <label>
+                            <input type="number" step="any" style="width: 100%" name="Deduction_Other" id="Deduction_Other" value="{{Deduction_Other}}" oninput="sq_sum()">
+                            </label>
+                        </th>
+                        <th colspan="1">
+                            <label>
+                                <input type="number" step="any" style="width: 100%" name="Current_Application_Deduction_Other" id="Current_Application_Deduction_Other" oninput="ss_sum()">
+                            </label>
+                        </th>
+                        <th colspan="1">
+                            <label>
+                                <input type="number" step="any" style="width: 100%" name="Current_Approved_Deduction_Other" id="Current_Approved_Deduction_Other" oninput="sd_sum()">
+                            </label>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">应扣款合计</th>
+                        <th colspan="1">
+                            <label>
+                                <input type="number" step="any" style="width: 100%" name="Total_Deductions" id="Total_Deductions" value="{{Total_Deductions}}" oninput="sq_sum()">
+                            </label>
+                        </th>
+                        <th colspan="1">
+                            <label>
+                                <input type="number" step="any" style="width: 100%" name="Current_Application_Total_Deductions" id="Current_Application_Total_Deductions" oninput="ss_sum()">
+                            </label>
+                        </th>
+                        <th colspan="1">
+                            <label>
+                                <input type="number" step="any" style="width: 100%" name="Current_Approved_Total_Deductions" id="Current_Approved_Total_Deductions" oninput="sd_sum()">
+                            </label>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">应付款合计</th>
+                        <th colspan="1">
+                            <label>
+                                <input type="number" step="any" style="width: 100%" name="Total_Accounts_Payable" id="Total_Accounts_Payable" value="{{Total_Accounts_Payable}}">
+                            </label>
+                        </th>
+                        <th colspan="1">
+                            <label>
+                                <input type="number" step="any" style="width: 100%" name="Current_Application_Total_Accounts_Payable" id="Current_Application_Total_Accounts_Payable">
+                            </label>
+                        </th>
+                        <th colspan="1">
+                            <label>
+                                <input type="number" step="any" style="width: 100%" name="Current_Approved_Total_Accounts_Payable" id="Current_Approved_Total_Accounts_Payable">
+                            </label>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th hidden>
+                            <input type="hidden" value="{{ year }}" name="year" id="year">
+                            <input type="hidden" value="{{ month }}" name="month" id="month">
+                            <input type="hidden" value="{{ Contract_Number }}" name="Contract_Number" id="Contract_Number">
+                            <input type="hidden" value="{{ Reporting_Periods }}" name="Reporting_Periods" id="Reporting_Periods">
+                        </th>
+                    </tr>
+                    <tr>
+                        <th colspan="5"><button type="submit" style="width: 70%">上传生成</button> </th>
+                    </tr>
+                </table>
+            </div>
+        </form>
+    <script>
+        function sq_sum() {
+            const Completed_Contract_Internal_Projects_Until_Last_Period = parseFloat(document.getElementById("Completed_Contract_Internal_Projects_Until_Last_Period").value) || 0;    //合同内项目
+            const Completed_Prepaid_Safety_Civilized_Construction_Fee_Until_Last_Period = parseFloat(document.getElementById("Completed_Prepaid_Safety_Civilized_Construction_Fee_Until_Last_Period").value) || 0;  //预付安全文明施工费
+            const Accumulated_Completed_Amount_Until_Last_Period_Change_Projects = parseFloat(document.getElementById("Accumulated_Completed_Amount_Until_Last_Period_Change_Projects").value) || 0;    //变更项目
+            const Accumulated_Completed_Amount_Until_Last_Period_Time_and_Materials_Project = parseFloat(document.getElementById("Accumulated_Completed_Amount_Until_Last_Period_Time_and_Materials_Project").value) || 0;    //计日工项目
+            const Accumulated_Completed_Amount_Until_Last_Period_Claim_Project = parseFloat(document.getElementById("Accumulated_Completed_Amount_Until_Last_Period_Claim_Project").value) || 0;    //索赔项目
+            const Accumulated_Completed_Amount_Until_Last_Period_Price_Adjustment = parseFloat(document.getElementById("Accumulated_Completed_Amount_Until_Last_Period_Price_Adjustment").value) || 0;    //价格调整
+            const Accumulated_Completed_Amount_Until_Last_Period_Other = parseFloat(document.getElementById("Accumulated_Completed_Amount_Until_Last_Period_Other").value) || 0;    //其他
+            const Accumulated_Completed_Amount_Until_Last_Period_Tax_Adjustment_Payable_Amount = parseFloat(document.getElementById("Accumulated_Completed_Amount_Until_Last_Period_Tax_Adjustment_Payable_Amount").value) || 0;    //税率调整应付金额
+            const Accumulated_Completed_Amount_Until_Last_Period_Financial_Evaluation_Reduction = parseFloat(document.getElementById("Accumulated_Completed_Amount_Until_Last_Period_Financial_Evaluation_Reduction").value) || 0;    //财评审减
+
+            document.getElementById("Total_Completed_Output_Value").value = (
+                Completed_Contract_Internal_Projects_Until_Last_Period +
+                    Completed_Prepaid_Safety_Civilized_Construction_Fee_Until_Last_Period +
+                    Accumulated_Completed_Amount_Until_Last_Period_Change_Projects +
+                    Accumulated_Completed_Amount_Until_Last_Period_Time_and_Materials_Project +
+                    Accumulated_Completed_Amount_Until_Last_Period_Claim_Project +
+                    Accumulated_Completed_Amount_Until_Last_Period_Price_Adjustment +
+                    Accumulated_Completed_Amount_Until_Last_Period_Other +
+                    Accumulated_Completed_Amount_Until_Last_Period_Tax_Adjustment_Payable_Amount -
+                    Accumulated_Completed_Amount_Until_Last_Period_Financial_Evaluation_Reduction
+            ).toFixed(2)
+            const Total_Completed_Output_Value = parseFloat(document.getElementById("Total_Completed_Output_Value").value) || 0;    //完成产值合计
+            const Deduction_of_Supply_of_Plants_by_Party_A = parseFloat(document.getElementById("Deduction_of_Supply_of_Plants_by_Party_A").value) || 0;    //扣减甲供材料费
+            document.getElementById("Total_Completed_Output_Value_After_Deducting_Supply_of_Plants_by_Party_A").value = (
+                Total_Completed_Output_Value - Deduction_of_Supply_of_Plants_by_Party_A
+            ).toFixed(2)
+            const Total_Completed_Output_Value_After_Deducting_Supply_of_Plants_by_Party_A = parseFloat(document.getElementById("Total_Completed_Output_Value_After_Deducting_Supply_of_Plants_by_Party_A").value) || 0;    //扣减甲供材料费后完成产值合计
+            const Accounts_Payable_Advance_Payment = parseFloat(document.getElementById("Accounts_Payable_Advance_Payment").value) || 0;    //应付预付款
+            const Advance_Payment_Offset = parseFloat(document.getElementById("Advance_Payment_Offset").value) || 0;    //预付款抵扣
+            const Temporary_Withholding_Payment_Retention_Money = parseFloat(document.getElementById("Temporary_Withholding_Payment_Retention_Money").value) || 0;    //暂扣支付保留金
+            const Refund_of_Payment_Retention_Money = parseFloat(document.getElementById("Refund_of_Payment_Retention_Money").value) || 0;    //返还支付保留金
+            document.getElementById("Total_Amount_Receivable").value = (
+                Total_Completed_Output_Value_After_Deducting_Supply_of_Plants_by_Party_A +
+                    Accounts_Payable_Advance_Payment -
+                    Advance_Payment_Offset -
+                    Temporary_Withholding_Payment_Retention_Money +
+                    Refund_of_Payment_Retention_Money
+            ).toFixed(2)
+            const Total_Amount_Receivable = parseFloat(document.getElementById("Total_Amount_Receivable").value) || 0;    //应得款合计
+            const Deduction_Penalty = parseFloat(document.getElementById("Deduction_Penalty").value) || 0;    //违约金
+            const Deduction_Fine = parseFloat(document.getElementById("Deduction_Fine").value) || 0;    //罚款
+            const Deduction_Other = parseFloat(document.getElementById("Deduction_Other").value) || 0;    //其他
+            document.getElementById("Total_Deductions").value = (
+                Deduction_Penalty +
+                    Deduction_Fine +
+                    Deduction_Other
+            ).toFixed(2)
+            const Total_Deductions = parseFloat(document.getElementById("Total_Deductions").value) || 0;    //应扣款合计
+            document.getElementById("Total_Accounts_Payable").value = (
+                Total_Amount_Receivable - Total_Deductions
+            ).toFixed(2)
+        }
+
+
+
+        function ss_sum() {
+            const Current_Application_Internal_Contract_Project = parseFloat(document.getElementById("Current_Application_Internal_Contract_Project").value) || 0;    //合同内项目
+            const Current_Application_Prepayment_Safety_Civilized_Construction_Fee = parseFloat(document.getElementById("Current_Application_Prepayment_Safety_Civilized_Construction_Fee").value) || 0;  //预付安全文明施工费
+            const Current_Application_Change_Project = parseFloat(document.getElementById("Current_Application_Change_Project").value) || 0;    //变更项目
+            const Current_Application_Time_and_Materials_Project = parseFloat(document.getElementById("Current_Application_Time_and_Materials_Project").value) || 0;    //计日工项目
+            const Current_Application_Claim_Project = parseFloat(document.getElementById("Current_Application_Claim_Project").value) || 0;    //索赔项目
+            const Current_Application_Price_Adjustment = parseFloat(document.getElementById("Current_Application_Price_Adjustment").value) || 0;    //价格调整
+            const Current_Application_Other = parseFloat(document.getElementById("Current_Application_Other").value) || 0;    //其他
+            const Current_Application_Tax_Adjustment_Payable_Amount = parseFloat(document.getElementById("Current_Application_Tax_Adjustment_Payable_Amount").value) || 0;    //税率调整应付金额
+            const Current_Application_Financial_Evaluation_Reduction = parseFloat(document.getElementById("Current_Application_Financial_Evaluation_Reduction").value) || 0;    //财评审减
+
+            document.getElementById("Current_Application_Total_Completed_Output_Value").value = (
+                Current_Application_Internal_Contract_Project +
+                    Current_Application_Prepayment_Safety_Civilized_Construction_Fee +
+                    Current_Application_Change_Project +
+                    Current_Application_Time_and_Materials_Project +
+                    Current_Application_Claim_Project +
+                    Current_Application_Price_Adjustment +
+                    Current_Application_Other +
+                    Current_Application_Tax_Adjustment_Payable_Amount -
+                    Current_Application_Financial_Evaluation_Reduction
+            ).toFixed(2)
+            const Current_Application_Total_Completed_Output_Value = parseFloat(document.getElementById("Current_Application_Total_Completed_Output_Value").value) || 0;    //完成产值合计
+            const Current_Application_Deduction_of_Supply_of_Plants_by_Party_A = parseFloat(document.getElementById("Current_Application_Deduction_of_Supply_of_Plants_by_Party_A").value) || 0;    //扣减甲供材料费
+            document.getElementById("Current_Application_Total_Completed_Output_Value_After_Deducting_Supply_of_Plants_by_Party_A").value = (
+                Current_Application_Total_Completed_Output_Value - Current_Application_Deduction_of_Supply_of_Plants_by_Party_A
+            ).toFixed(2)
+            const Current_Application_Total_Completed_Output_Value_After_Deducting_Supply_of_Plants_by_Party_A = parseFloat(document.getElementById("Current_Application_Total_Completed_Output_Value_After_Deducting_Supply_of_Plants_by_Party_A").value) || 0;    //扣减甲供材料费后完成产值合计
+            const Current_Application_Accounts_Payable_Advance_Payment = parseFloat(document.getElementById("Current_Application_Accounts_Payable_Advance_Payment").value) || 0;    //应付预付款
+            const Current_Application_Advance_Payment_Offset = parseFloat(document.getElementById("Current_Application_Advance_Payment_Offset").value) || 0;    //预付款抵扣
+            const Progress_Payment_Ratio = parseFloat(document.getElementById("Progress_Payment_Ratio").value) || 0;
+            document.getElementById("Current_Application_Temporary_Withholding_Payment_Retention_Money").value = (
+                Current_Application_Total_Completed_Output_Value_After_Deducting_Supply_of_Plants_by_Party_A * (1 - (Progress_Payment_Ratio / 100))
+            ).toFixed(2)
+            const Current_Application_Temporary_Withholding_Payment_Retention_Money = parseFloat(document.getElementById("Current_Application_Temporary_Withholding_Payment_Retention_Money").value) || 0;    //暂扣支付保留金
+            const Current_Application_Refund_of_Payment_Retention_Money = parseFloat(document.getElementById("Current_Application_Refund_of_Payment_Retention_Money").value) || 0;    //返还支付保留金
+            document.getElementById("Current_Application_Total_Amount_Receivable").value = (
+                Current_Application_Total_Completed_Output_Value_After_Deducting_Supply_of_Plants_by_Party_A +
+                    Current_Application_Accounts_Payable_Advance_Payment -
+                    Current_Application_Advance_Payment_Offset -
+                    Current_Application_Temporary_Withholding_Payment_Retention_Money +
+                    Current_Application_Refund_of_Payment_Retention_Money
+            ).toFixed(2)
+            const Current_Application_Total_Amount_Receivable = parseFloat(document.getElementById("Current_Application_Total_Amount_Receivable").value) || 0;    //应得款合计
+            const Current_Application_Deduction_Penalty = parseFloat(document.getElementById("Current_Application_Deduction_Penalty").value) || 0;    //违约金
+            const Current_Application_Deduction_Fine = parseFloat(document.getElementById("Current_Application_Deduction_Fine").value) || 0;    //罚款
+            const Current_Application_Deduction_Other = parseFloat(document.getElementById("Current_Application_Deduction_Other").value) || 0;    //其他
+            document.getElementById("Current_Application_Total_Deductions").value = (
+                Current_Application_Deduction_Penalty +
+                    Current_Application_Deduction_Fine +
+                    Current_Application_Deduction_Other
+            ).toFixed(2)
+            const Current_Application_Total_Deductions = parseFloat(document.getElementById("Current_Application_Total_Deductions").value) || 0;    //应扣款合计
+            document.getElementById("Current_Application_Total_Accounts_Payable").value = (
+                Current_Application_Total_Amount_Receivable - Current_Application_Total_Deductions
+            ).toFixed(2)
+        }
+
+
+        function sd_sum() {
+            const Current_Approved_Internal_Contract_Project = parseFloat(document.getElementById("Current_Approved_Internal_Contract_Project").value) || 0;    //合同内项目
+            const Current_Approved_Prepayment_Safety_Civilized_Construction_Fee = parseFloat(document.getElementById("Current_Approved_Prepayment_Safety_Civilized_Construction_Fee").value) || 0;  //预付安全文明施工费
+            const Current_Approved_Change_Project = parseFloat(document.getElementById("Current_Approved_Change_Project").value) || 0;    //变更项目
+            const Current_Approved_Time_and_Materials_Project = parseFloat(document.getElementById("Current_Approved_Time_and_Materials_Project").value) || 0;    //计日工项目
+            const Current_Approved_Claim_Project = parseFloat(document.getElementById("Current_Approved_Claim_Project").value) || 0;    //索赔项目
+            const Current_Approved_Price_Adjustment = parseFloat(document.getElementById("Current_Approved_Price_Adjustment").value) || 0;    //价格调整
+            const Current_Approved_Other = parseFloat(document.getElementById("Current_Approved_Other").value) || 0;    //其他
+            const Current_Approved_Tax_Adjustment_Payable_Amount = parseFloat(document.getElementById("Current_Approved_Tax_Adjustment_Payable_Amount").value) || 0;    //税率调整应付金额
+            const Current_Approved_Financial_Evaluation_Approval = parseFloat(document.getElementById("Current_Approved_Financial_Evaluation_Approval").value) || 0;    //财评审减
+
+            document.getElementById("Current_Approved_Total_Completed_Output_Value").value = (
+                Current_Approved_Internal_Contract_Project +
+                    Current_Approved_Prepayment_Safety_Civilized_Construction_Fee +
+                    Current_Approved_Change_Project +
+                    Current_Approved_Time_and_Materials_Project +
+                    Current_Approved_Claim_Project +
+                    Current_Approved_Price_Adjustment +
+                    Current_Approved_Other +
+                    Current_Approved_Tax_Adjustment_Payable_Amount -
+                    Current_Approved_Financial_Evaluation_Approval
+            ).toFixed(2)
+            const Current_Approved_Total_Completed_Output_Value = parseFloat(document.getElementById("Current_Approved_Total_Completed_Output_Value").value) || 0;    //完成产值合计
+            const Current_Approved_Deduction_of_Supply_of_Plants_by_Party_A = parseFloat(document.getElementById("Current_Approved_Deduction_of_Supply_of_Plants_by_Party_A").value) || 0;    //扣减甲供材料费
+            document.getElementById("Current_Approved_Total_Completed_Output_Value_After_Deducting_Supply_of_Plants_by_Party_A").value = (
+                Current_Approved_Total_Completed_Output_Value - Current_Approved_Deduction_of_Supply_of_Plants_by_Party_A
+            ).toFixed(2)
+            const Current_Approved_Total_Completed_Output_Value_After_Deducting_Supply_of_Plants_by_Party_A = parseFloat(document.getElementById("Current_Approved_Total_Completed_Output_Value_After_Deducting_Supply_of_Plants_by_Party_A").value) || 0;    //扣减甲供材料费后完成产值合计
+            const Current_Approved_Accounts_Payable_Advance_Payment = parseFloat(document.getElementById("Current_Approved_Accounts_Payable_Advance_Payment").value) || 0;    //应付预付款
+            const Current_Approved_Advance_Payment_Offset = parseFloat(document.getElementById("Current_Approved_Advance_Payment_Offset").value) || 0;    //预付款抵扣
+            const Progress_Payment_Ratio = parseFloat(document.getElementById("Progress_Payment_Ratio").value) || 0;
+            document.getElementById("Current_Approved_Temporary_Withholding_Payment_Retention_Money").value = (
+                Current_Approved_Total_Completed_Output_Value_After_Deducting_Supply_of_Plants_by_Party_A * (1 - (Progress_Payment_Ratio / 100))
+            ).toFixed(2)
+            const Current_Approved_Temporary_Withholding_Payment_Retention_Money = parseFloat(document.getElementById("Current_Approved_Temporary_Withholding_Payment_Retention_Money").value) || 0;    //暂扣支付保留金
+            const Current_Approved_Refund_of_Payment_Retention_Money = parseFloat(document.getElementById("Current_Approved_Refund_of_Payment_Retention_Money").value) || 0;    //返还支付保留金
+            document.getElementById("Current_Approved_Total_Amount_Receivable").value = (
+                Current_Approved_Total_Completed_Output_Value_After_Deducting_Supply_of_Plants_by_Party_A +
+                    Current_Approved_Accounts_Payable_Advance_Payment -
+                    Current_Approved_Advance_Payment_Offset -
+                    Current_Approved_Temporary_Withholding_Payment_Retention_Money +
+                    Current_Approved_Refund_of_Payment_Retention_Money
+            ).toFixed(2)
+            const Current_Approved_Total_Amount_Receivable = parseFloat(document.getElementById("Current_Approved_Total_Amount_Receivable").value) || 0;    //应得款合计
+            const Current_Approved_Deduction_Penalty = parseFloat(document.getElementById("Current_Approved_Deduction_Penalty").value) || 0;    //违约金
+            const Current_Approved_Deduction_Fine = parseFloat(document.getElementById("Current_Approved_Deduction_Fine").value) || 0;    //罚款
+            const Current_Approved_Deduction_Other = parseFloat(document.getElementById("Current_Approved_Deduction_Other").value) || 0;    //其他
+            document.getElementById("Current_Approved_Total_Deductions").value = (
+                Current_Approved_Deduction_Penalty +
+                    Current_Approved_Deduction_Fine +
+                    Current_Approved_Deduction_Other
+            ).toFixed(2)
+            const Current_Approved_Total_Deductions = parseFloat(document.getElementById("Current_Approved_Total_Deductions").value) || 0;    //应扣款合计
+            document.getElementById("Current_Approved_Total_Accounts_Payable").value = (
+                Current_Approved_Total_Amount_Receivable - Current_Approved_Total_Deductions
+            ).toFixed(2)
+        }
+    </script>
+</body>
+</html>

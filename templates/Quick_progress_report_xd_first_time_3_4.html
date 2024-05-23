@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="../static/img/favicon.ico">
+    <title>进度款生成程序（新点软件）</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            font-family: "Arial", "Microsoft YaHei", "黑体", "宋体", sans-serif;
+        }
+        .title {
+            text-align: center;
+        }
+        #sheet {
+            position: relative; /* 相对定位 */
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex-direction: column;
+            /*max-height: 80vh;*/
+            min-width: 600px;
+            min-height: 60vh;
+            /*border: black solid 1px;*/
+        }
+        #sheet table {
+            font-size: 10px;
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+        }
+        #sheet table tr th {
+            border: 1px solid black;
+            padding: 5px;
+            text-align: center;
+        }
+        #sheet table tr td {
+            border: 1px solid black;
+            padding: 5px;
+            text-align: center;
+        }
+        #sheet input {
+            font-size: 10px;
+        }
+        input[type="text"] {
+            color: gray;
+            width: 100%;
+            box_sizing: border-box; /* 设置元素的盒模型为border-box，此时元素的width和height属性即包含了padding和border */
+            margin: 0;
+            padding: 4px;
+            border: none;
+            background: none;
+            outline: none;
+            text-align: center;
+        }
+        input[type="number"] {
+            color: black;
+            width: 50px;
+            box_sizing: border-box;
+            margin: 0;
+            padding: 4px;
+            border: none;
+            background: none;
+            outline: none;
+            text-align: center;
+        }
+        textarea {
+            background: none;
+            resize: vertical;
+            text-align: left;
+            font-size: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="user_info">
+        {{ username }}
+    </div>
+    <div class="title">
+        <h1>新点软件对接进度款表格及报告</h1>
+        <h5>1.录入基本信息</h5>
+    </div>
+        <form action="/creat_reports_xd_result_3_4" method="post" enctype="multipart/form-data">
+            <div class="box" id="sheet">
+                <table>
+                    <tr>
+                        <th colspan="2">合同名称</th>
+                        <th colspan="1"><label><input type="text"  name="Contract_Name" id="Contract_Name" required></label></th>
+                        <th>合同编号</th>
+                        <th colspan="1"><label><input type="text" name="Contract_Number" id="Contract_Number" required></label></th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">建设单位</th>
+                        <th colspan="1"><label><input type="text" name="Principal_Party" id="Principal_Party" placeholder=""></label></th>
+                        <th>施工单位</th>
+                        <th colspan="1"><label><input type="text" name="Construction_Unit" id="Construction_Unit" placeholder=""></label></th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">监理单位</th>
+                        <th colspan="1"><label><input type="text" name="Supervision_Unit" id="Supervision_Unit" placeholder=""></label></th>
+                        <th>设计单位</th>
+                        <th colspan="1"><label><input type="text" name="Design_Unit" id="Design_Unit" placeholder=""></label></th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">咨询单位</th>
+                        <th colspan="1"><label><input type="text" name="Consulting_Unit" id="Consulting_Unit" placeholder=""></label> </th>
+                        <th>报送期数</th>
+                        <th colspan="1"><label>第<input type="number" name="Reporting_Periods" id="Reporting_Periods" placeholder="1">期</label></th>
+                    </tr>
+                    <tr>
+                        <th colspan="2"><label>资金来源</label></th>
+                        <th>
+                            <label>
+                                <input type="text" list="Funding_Source_list" name="Funding_Source" id="Funding_Source">
+                                <datalist id="Funding_Source_list">
+                                    <option>新区财政资金</option>
+                                    <option>企业自筹</option>
+                                </datalist>
+                            </label>
+                        </th>
+                        <th>
+                            合同价款形式
+                        </th>
+                        <th>
+                            <label>
+                                <input type="text" list="Price_Form_list" name="Price_Form" id="Price_Form">
+                                <datalist id="Price_Form_list">
+                                    <option>固定单价合同</option>
+                                    <option>总价合同</option>
+                                    <option>固定费率合同</option>
+                                </datalist>
+                            </label>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th colspan="2"><label>合同金额</label></th>
+                        <th>
+                            <label>
+                                <input type="text" name="Contract_Amount" id="Contract_Amount">
+                            </label>
+                        </th>
+                        <th>进度款支付比例</th>
+                        <th>
+                            <label>
+                                <input type="number" name="Progress_Payment_Ratio" id="Progress_Payment_Ratio" value="85" oninput="ss_sum(), sd_sum()">%
+                            </label>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th colspan="2"><label>预付款支付比例</label></th>
+                        <th>
+                            <label>
+                                <input type="number" name="Advance_Payment_Payment_Ratio" id="Advance_Payment_Payment_Ratio" oninput="ss_sum(), sd_sum()">%
+                            </label>
+                        </th>
+                        <th>预付款扣回比例</th>
+                        <th>
+                            <label>
+                                <input type="number" name="Advance_Payment_Deduction_Ratio" id="Advance_Payment_Deduction_Ratio" oninput="ss_sum(), sd_sum()">%
+                            </label>
+                        </th>
+                    </tr>
+                    <tr style="height: 60px">
+                        <th colspan="2">工程概况</th>
+                        <th colspan="3"><label><textarea name="Project_Overview" id="Project_Overview" rows="3" cols="80" placeholder="输入工程概况"></textarea> </label></th>
+
+                    </tr>
+                    <tr>
+                        <th colspan="5">文件上传</th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">上传合同部分压缩包</th>
+                        <th colspan="3"><label>
+                            <input type="file" style="width: 100%" name="file_input_ht" id="file_input_ht" accept=".zip">
+                        </label></th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">上传送审部分压缩包</th>
+                        <th colspan="3"><label>
+                            <input type="file" style="width: 100%" name="file_input_ss" id="file_input_ss" accept=".zip">
+                        </label></th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">上传审定部分压缩包</th>
+                        <th colspan="3"><label>
+                            <input type="file" style="width: 100%" name="file_input_sd" id="file_input_sd" accept=".zip">
+                        </label></th>
+                    </tr>
+                    <tr>
+                        <input type="hidden" value="{{ username }}">
+                    </tr>
+                    <tr>
+                        <th colspan="5"><button type="submit" style="width: 70%; background-color: wheat">上传生成附件3、4</button> </th>
+                    </tr>
+
+                </table>
+            </div>
+        </form>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="../static/img/favicon.ico">
+    <title>Quick Progress Reports</title>
+<!--    <link rel="stylesheet" href="../static/css/new_css_0904.css?v=0.0.1">-->
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .title {
+            text-align: center;
+        }
+        #sheet {
+            position: relative; /* 相对定位 */
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex-direction: column;
+            min-width: 600px;
+            /*max-height: 80vh;*/
+            min-height: 100vh;
+            /*border: black solid 1px;*/
+        }
+        #sheet table {
+            font-size: 10px;
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+        }
+        #sheet table tr th {
+            border: 1px solid black;
+            padding: 5px;
+            text-align: center;
+        }
+        #sheet table tr td {
+            border: 1px solid black;
+            padding: 5px;
+            text-align: center;
+        }
+        #sheet input {
+            font-size: 10px;
+        }
+        input[type="text"] {
+            color: wheat;
+            width: 100%;
+            box_sizing: border-box;
+            margin: 0;
+            padding: 4px;
+            border: none;
+            background: none;
+            outline: none;
+            text-align: center;
+        }
+        input[type="number"] {
+            color: black;
+            width: 50px;
+            box_sizing: border-box;
+            margin: 0;
+            padding: 4px;
+            border: none;
+            background: none;
+            outline: none;
+            text-align: center;
+        }
+        textarea {
+            background: none;
+            resize: vertical;
+            text-align: left;
+            font-size: 10px;
+        }
+        #year, #month {
+            width: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">
+        <h1>新点软件对接进度款表格及报告</h1>
+        <h5>限非第一次使用本系统时使用</h5>
+    </div>
+    <form action="/creat_reports_xd_result_old_data" method="post" enctype="multipart/form-data">
+        <div class="box" id="sheet">
+            <table>
+                <tr>
+                    <th>选择合同名称</th>
+                    <th>
+                        <input style="width: 80%;" type="text"  list="projectName" name="Contract_Name" required>
+                        <datalist id="projectName">
+                            {% for dir in contract_name %}
+                                <option>{{ dir }}</option>
+                            {% endfor %}
+                        </datalist>
+                    </th>
+                    <th>
+                        <span>期数</span>
+                    </th>
+                    <th>
+                        <label>
+                            第<input style="width: 80%;" type="number" name="Reporting_Periods" placeholder="1" required>期
+                        </label>
+                    </th>
+                </tr>
+                <tr>
+                    <th>上期财评扣减</th>
+                    <th colspan="4">
+                        <input style="width: 80%;" type="text" name="Financial_Evaluation_Deduction_Last_Period" placeholder="0" id="sqckj">元
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="5">文件上传</th>
+                </tr>
+                <tr>
+                    <th>上传合同部分压缩包</th>
+                    <th colspan="4">
+                        <label>
+                            <input type="file" style="width: 100%" name="file_input_ht" accept=".zip" required>
+                        </label>
+                    </th>
+                </tr>
+
+                <tr>
+                    <th>上传送审部分压缩包</th>
+                    <th colspan="4">
+                        <label>
+                            <input type="file" style="width: 100%" name="file_input_ss" accept=".zip" required>
+                        </label>
+                    </th>
+                </tr>
+                <tr>
+                    <th>上传审定部分压缩包</th>
+                    <th colspan="4">
+                        <label>
+                            <input type="file" style="width: 100%" name="file_input_sd" accept=".zip" required>
+                        </label>
+                    </th>
+                </tr>
+                <tr>
+                    <input type="hidden" value="{{ username }}">
+                </tr>
+                <tr>
+                    <th colspan="5">
+                        <input type="submit" value="提交生成" style="width: 50%">
+                    </th>
+                </tr>
+            </table>
+        </div>
+    </form>
+</body>
+</html>
