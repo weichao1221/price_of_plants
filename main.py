@@ -298,7 +298,6 @@ async def ceshi_html(request: Request):
 
 @app.get("/creat_reports_zip_first", response_class=HTMLResponse)
 async def creat_reports_zip_first(request: Request):
-    check_login(request) # 查询是否登陆
     try:
         username = request.session.get('username')
     except:
@@ -327,7 +326,6 @@ async def creat_reports_xd_result(request: Request,
                                   file_input_ss: UploadFile = File(default=None),
                                   file_input_sd: UploadFile = File(default=None)
                                   ):
-    check_login(request)
     try:
         username = request.session.get('username')
     except:
@@ -538,7 +536,6 @@ async def creat_reports_xd_result(request: Request,
 @app.post("/fj_3_4_download", response_class=FileResponse)
 async def fj_3_4_download(request: Request, zip_dir=Form(...), zip_name=Form(...)):
     print(zip_dir, zip_name)
-    check_login(request)
     return FileResponse(path=zip_dir, filename=zip_name)
 
 
@@ -628,7 +625,6 @@ async def creat_reports_xd_result(request: Request,
                                   Current_Approved_Total_Accounts_Payable: str = Form(default=0),
                                   fj3: UploadFile = File(default=None),
                                   fj4: UploadFile = File(default=None)):
-    check_login(request)
     start_time = time.time()
     try:
         username = request.session.get('username')
