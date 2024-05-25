@@ -7,6 +7,7 @@ from openpyxl.utils import get_column_letter, column_index_from_string
 import xlrd
 from utils.Excel_usual import convert_xls_to_xlsx
 from utils.excels.num_to_cn import number_to_chinese
+import json
 
 # 拆分分部分项表格
 def split_excel_fenbu(input_file, process_path, category, part):
@@ -1748,6 +1749,52 @@ def linshifujian4_4(Contract_Name):
     output_path = r'/Users/willcha/library_for_search/function/progress_reports_xd'
     project_info_dict = get_project_data_dict(output_path, Contract_Name)
     return project_info_dict
-if __name__ == '__main__':
-    Contract_Name = '容东民俗公园二期二标段施工总承包'
-    print(linshifujian4_4(Contract_Name)['Contract_Number'])
+
+def creatProjectInfoJsonFile(Contract_Name, output_path, Contract_Number, Principal_Party, Construction_Unit,
+                             Supervision_Unit,
+                             Design_Unit, Consulting_Unit, Project_Overview, Funding_Source, Price_Form,
+                             Progress_Payment_Ratio, Contract_Amount, Advance_Payment_Payment_Ratio,
+                             Advance_Payment_Deduction_Ratio):
+    project_info_file_name = "project_info.json"
+    save_path = os.path.join(output_path, project_info_file_name)
+    project_info_dict = {}
+    # 确保文件存在，不存在则创建
+    if os.path.exists(save_path):
+        try:
+            with open(save_path, 'r') as file:
+                project_info_dict = json.load(file)
+        except:
+            os.remove(save_path)
+    else:
+        print(f'文件不存在，新建')
+    project_info_dict[Contract_Name] = {
+        "Contract_Name": Contract_Name,
+        "Contract_Number": Contract_Number,
+        "Principal_Party": Principal_Party,
+        "Construction_Unit": Construction_Unit,
+        "Supervision_Unit": Supervision_Unit,
+        "Design_Unit": Design_Unit,
+        "Consulting_Unit": Consulting_Unit,
+        "Project_Overview": Project_Overview,
+        "Funding_Source": Funding_Source,
+        "Price_Form": Price_Form,
+        "Progress_Payment_Ratio": Progress_Payment_Ratio,
+        "Contract_Amount": Contract_Amount,
+        "Advance_Payment_Payment_Ratio": Advance_Payment_Payment_Ratio,
+        "Advance_Payment_Deduction_Ratio": Advance_Payment_Deduction_Ratio
+    }
+    with open(save_path, 'w') as file:
+        json.dump(project_info_dict, file, ensure_ascii=False, indent=4)
+    return project_info_dict
+
+
+def readProjectInfoJsonFile(function_dir):
+    project_info_file_name = "project_info.json"
+    save_path = os.path.join(function_dir, project_info_file_name)
+    if os.path.exists(save_path):
+        with open(save_path, 'r') as file:
+            project_info_dict = json.load(file)
+        return project_info_dict
+    else:
+        print(f'文件 {save_path} 不存在')
+        return {}
