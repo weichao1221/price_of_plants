@@ -34,6 +34,21 @@ app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
+def user_folder(username):
+    user_folder_path = os.path.join(os.path.dirname(__file__), 'user_folder', username)
+    try:
+        os.makedirs(user_folder_path)
+    except:
+        pass
+    return user_folder_path
+
+def function_path(user_folder_path, function_name):
+    function_path = os.path.join(user_folder_path, function_name)
+    try:
+        os.makedirs(function_path)
+    except:
+        pass
+    return function_path
 
 def read_data(filename):
     filepath = os.path.join(os.path.dirname(__file__), 'static', 'res')
